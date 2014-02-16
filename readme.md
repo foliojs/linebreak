@@ -13,6 +13,12 @@ This is a JavaScript/CoffeeScript implementation of the
 line wrapping text in PDF documents, but since the algorithm knows nothing about the actual
 visual appearance or layout of text, it could be used for other things as well.
 
+## Installation
+
+You can install via npm
+
+    npm install linebreak
+
 ## Example
 
 ```javascript
