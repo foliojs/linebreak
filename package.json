@@ -1,0 +1,30 @@
+{
+  "name": "linebreak",
+  "version": "0.1.0",
+  "description": "An implementation of the Unicode Line Breaking Algorithm (UAX #14)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/devongovett/linebreaker.git"
+  },
+  "keywords": [
+    "unicode",
+    "text",
+    "wrapping"
+  ],
+  "author": "Devon Govett <devongovett@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/devongovett/linebreaker/issues"
+  },
+  "homepage": "https://github.com/devongovett/linebreaker",
+  "devDependencies": {
+      "coffee-script": "~1.7.1",
+      "mocha": "*"
+  },
+  "scripts": {
+      "prepublish": "coffee -o js -c src/",
+      "postpublish": "rm -rf ./js",
+      "test": "node_modules/mocha/bin/mocha"
+  },
+  "main": "js/linebreaker.js"
+}
