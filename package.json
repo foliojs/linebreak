@@ -1,6 +1,6 @@
 {
   "name": "linebreak",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "An implementation of the Unicode Line Breaking Algorithm (UAX #14)",
   "repository": {
     "type": "git",
