@@ -18,8 +18,9 @@
   },
   "homepage": "https://github.com/devongovett/linebreaker",
   "devDependencies": {
+    "coffee-script": "^1.7.1",
     "mocha": "*",
-    "coffee-script": "^1.7.1"
+    "unicode-trie": "^0.1.1"
   },
   "scripts": {
     "prepublish": "coffee -c src/",
