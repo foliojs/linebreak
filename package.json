@@ -18,13 +18,13 @@
   },
   "homepage": "https://github.com/devongovett/linebreaker",
   "devDependencies": {
-      "coffee-script": "~1.7.1",
-      "mocha": "*"
+    "mocha": "*",
+    "coffee-script": "^1.7.1"
   },
   "scripts": {
-      "prepublish": "coffee -o js -c src/",
-      "postpublish": "rm -rf ./js",
-      "test": "node_modules/mocha/bin/mocha"
+    "prepublish": "coffee -c src/",
+    "postpublish": "rm -rf src/*.js",
+    "test": "node_modules/mocha/bin/mocha"
   },
-  "main": "js/linebreaker.js"
+  "main": "src/linebreaker"
 }

@@ -1,3 +1,5 @@
+UnicodeTrie = require 'unicode-trie'
+classTrie = new UnicodeTrie require './class_trie.json'
 {BK, CR, LF, NL, CB, BA, SP, WJ, SP, BK, LF, NL, AI, AL, SA, SG, XX, CJ, ID, NS, characterClasses} = require './classes'
 {DI_BRK, IN_BRK, CI_BRK, CP_BRK, PR_BRK, pairTable} = require './pairs'
 
@@ -18,25 +20,6 @@ class LineBreaker
       return ((code - 0xd800) * 0x400) + (next - 0xdc00) + 0x10000
       
     return code
-    
-  getCharClass = (char) ->
-    low = 0
-    high = characterClasses.length
-    
-    while low < high
-      mid = (low + high) >>> 1
-      range = characterClasses[mid]
-        
-      if char > range.end
-        low = mid + 1
-        
-      else if char < range.start
-        high = mid
-        
-      else
-        return range.class
-    
-    return XX
   
   mapClass = (c) ->
     switch c
@@ -53,7 +36,7 @@ class LineBreaker
       else        c
         
   nextCharClass: (first = false) ->
-    return mapClass getCharClass @nextCodePoint()
+    return mapClass classTrie.get @nextCodePoint()
     
   class Break
     constructor: (@position, @required = false) ->

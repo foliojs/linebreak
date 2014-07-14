@@ -1,5 +1,7 @@
 fs = require 'fs'
 request = require 'request'
+classes = require './classes'
+UnicodeTrieBuilder = require 'unicode-trie/builder'
 
 # this loads the LineBreak.txt file for Unicode 6.2.0 and parses it to
 # combine ranges and generate CoffeeScript
@@ -10,6 +12,7 @@ request 'http://www.unicode.org/Public/6.2.0/ucd/LineBreak.txt', (err, res, data
   end = null
   type = null
   out = []
+  trie = new UnicodeTrieBuilder classes.XX
 
   # collect entries in the linebreaking table into ranges
   # to keep things smaller.
@@ -25,7 +28,7 @@ request 'http://www.unicode.org/Public/6.2.0/ucd/LineBreak.txt', (err, res, data
       rangeType = match[1]
   
     if type? and rangeType isnt type
-      out.push "new CharRange(0x#{start}, 0x#{end}, #{type})"
+      trie.setRange parseInt(start, 16), parseInt(end, 16), classes[type], true
       type = null
     
     if not type?
@@ -34,11 +37,9 @@ request 'http://www.unicode.org/Public/6.2.0/ucd/LineBreak.txt', (err, res, data
     
     end = rangeEnd
   
-  out.push "new CharRange(0x#{start}, 0x#{end}, #{type})"
+  trie.setRange parseInt(start, 16), parseInt(end, 16), classes[type], true
 
-  # replace the current character class ranges with the new ones
-  classes = fs.readFileSync 'classes.coffee', 'utf8'
-  classes = classes.replace /exports.characterClasses = \[[\S\s]*\]/, 
-                            'exports.characterClasses = [\n  ' + out.join('\n  ') + '\n]'
-              
-  fs.writeFile 'classes.coffee', classes
+  # write the trie to a file
+  frozen = trie.freeze()
+  frozen.data = [frozen.data...]
+  fs.writeFile __dirname + '/class_trie.json', JSON.stringify frozen
