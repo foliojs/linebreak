@@ -1,6 +1,6 @@
 {
   "name": "linebreak",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "An implementation of the Unicode Line Breaking Algorithm (UAX #14)",
   "repository": {
     "type": "git",
@@ -17,10 +17,12 @@
     "url": "https://github.com/devongovett/linebreaker/issues"
   },
   "homepage": "https://github.com/devongovett/linebreaker",
+  "dependencies": {
+    "unicode-trie": "^0.1.1"
+  },
   "devDependencies": {
     "coffee-script": "^1.7.1",
-    "mocha": "*",
-    "unicode-trie": "^0.1.1"
+    "mocha": "*"
   },
   "scripts": {
     "prepublish": "coffee -c src/",

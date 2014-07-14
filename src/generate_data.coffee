@@ -11,7 +11,6 @@ request 'http://www.unicode.org/Public/6.2.0/ucd/LineBreak.txt', (err, res, data
   start = null
   end = null
   type = null
-  out = []
   trie = new UnicodeTrieBuilder classes.XX
 
   # collect entries in the linebreaking table into ranges
