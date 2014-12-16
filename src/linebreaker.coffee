@@ -1,5 +1,7 @@
 UnicodeTrie = require 'unicode-trie'
-classTrie = new UnicodeTrie require './class_trie.json'
+fs = require 'fs'
+data = fs.readFileSync __dirname + '/classes.trie'
+classTrie = new UnicodeTrie data
 {BK, CR, LF, NL, CB, BA, SP, WJ, SP, BK, LF, NL, AI, AL, SA, SG, XX, CJ, ID, NS, characterClasses} = require './classes'
 {DI_BRK, IN_BRK, CI_BRK, CP_BRK, PR_BRK, pairTable} = require './pairs'
 

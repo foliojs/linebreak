@@ -39,6 +39,4 @@ request 'http://www.unicode.org/Public/6.2.0/ucd/LineBreak.txt', (err, res, data
   trie.setRange parseInt(start, 16), parseInt(end, 16), classes[type], true
 
   # write the trie to a file
-  frozen = trie.freeze()
-  frozen.data = [frozen.data...]
-  fs.writeFile __dirname + '/class_trie.json', JSON.stringify frozen
+  fs.writeFile __dirname + '/classes.trie', trie.toBuffer()
