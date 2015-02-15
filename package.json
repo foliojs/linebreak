@@ -18,7 +18,8 @@
   },
   "homepage": "https://github.com/devongovett/linebreaker",
   "dependencies": {
-    "unicode-trie": "^0.2.0"
+    "base64-js": "0.0.8",
+    "unicode-trie": "^0.3.0"
   },
   "devDependencies": {
     "coffee-script": "^1.7.1",
