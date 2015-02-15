@@ -3,9 +3,9 @@ request = require 'request'
 classes = require './classes'
 UnicodeTrieBuilder = require 'unicode-trie/builder'
 
-# this loads the LineBreak.txt file for Unicode 6.2.0 and parses it to
+# this loads the LineBreak.txt file for Unicode and parses it to
 # combine ranges and generate CoffeeScript
-request 'http://www.unicode.org/Public/6.2.0/ucd/LineBreak.txt', (err, res, data) ->
+request 'http://www.unicode.org/Public/7.0.0/ucd/LineBreak.txt', (err, res, data) ->
   matches = data.match /^[0-9A-F]+(\.\.[0-9A-F]+)?;[A-Z][A-Z0-9]/gm
 
   start = null
