@@ -38,6 +38,8 @@ while (bk = breaker.nextBreak()) {
   if (bk.required) {
     console.log('\n\n');
   }
+  
+  last = bk.position;
 }
 ```
 
