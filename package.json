@@ -24,7 +24,8 @@
   },
   "devDependencies": {
     "coffee-script": "^1.7.1",
-    "mocha": "*"
+    "mocha": "*",
+    "rollup": "^0.41.6"
   },
   "scripts": {
     "prepublish": "coffee -c src/",
