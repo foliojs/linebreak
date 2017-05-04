@@ -1,5 +1,5 @@
 UnicodeTrie = require 'unicode-trie'
-fs = require 'fs'
+`import fs from 'fs'`
 base64 = require 'base64-js'
 {BK, CR, LF, NL, CB, BA, SP, WJ, SP, BK, LF, NL, AI, AL, SA, SG, XX, CJ, ID, NS, characterClasses} = require './classes'
 {DI_BRK, IN_BRK, CI_BRK, CP_BRK, PR_BRK, pairTable} = require './pairs'
