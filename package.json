@@ -28,8 +28,8 @@
     "rollup": "^0.41.6"
   },
   "scripts": {
-    "prepublish": "coffee -c src/",
-    "postpublish": "rm -rf src/*.js",
+    "prepublish": "rollup -c",
+    "postpublish": "rm -rf dist/",
     "test": "node_modules/mocha/bin/mocha"
   },
   "main": "src/linebreaker",
