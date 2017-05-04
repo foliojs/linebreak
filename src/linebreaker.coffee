@@ -98,4 +98,4 @@ class LineBreaker
       else
         return null
           
-module.exports = LineBreaker
+`export default LineBreaker`
