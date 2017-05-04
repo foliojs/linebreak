@@ -2,7 +2,7 @@ UnicodeTrie = require 'unicode-trie'
 `import fs from 'fs'`
 base64 = require 'base64-js'
 `import {BK, CR, LF, NL, CB, BA, SP, WJ, AI, AL, SA, SG, XX, CJ, ID, NS} from './classes'`
-{DI_BRK, IN_BRK, CI_BRK, CP_BRK, PR_BRK, pairTable} = require './pairs'
+`import {DI_BRK, IN_BRK, CI_BRK, CP_BRK, PR_BRK, pairTable} from './pairs'`
 
 data = base64.toByteArray fs.readFileSync __dirname + '/classes.trie', 'base64'
 classTrie = new UnicodeTrie data
