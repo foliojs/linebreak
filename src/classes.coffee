@@ -1,43 +1,83 @@
 # The following break classes are handled by the pair table
-exports.OP = OP = 0   # Opening punctuation
-exports.CL = CL = 1   # Closing punctuation
-exports.CP = CP = 2   # Closing parenthesis
-exports.QU = QU = 3   # Ambiguous quotation
-exports.GL = GL = 4   # Glue
-exports.NS = NS = 5   # Non-starters
-exports.EX = EX = 6   # Exclamation/Interrogation
-exports.SY = SY = 7   # Symbols allowing break after
-exports.IS = IS = 8   # Infix separator
-exports.PR = PR = 9   # Prefix
-exports.PO = PO = 10  # Postfix
-exports.NU = NU = 11  # Numeric
-exports.AL = AL = 12  # Alphabetic
-exports.HL = HL = 13  # Hebrew Letter
-exports.ID = ID = 14  # Ideographic
-exports.IN = IN = 15  # Inseparable characters
-exports.HY = HY = 16  # Hyphen
-exports.BA = BA = 17  # Break after
-exports.BB = BB = 18  # Break before
-exports.B2 = B2 = 19  # Break on either side (but not pair)
-exports.ZW = ZW = 20  # Zero-width space
-exports.CM = CM = 21  # Combining marks
-exports.WJ = WJ = 22  # Word joiner
-exports.H2 = H2 = 23  # Hangul LV
-exports.H3 = H3 = 24  # Hangul LVT
-exports.JL = JL = 25  # Hangul L Jamo
-exports.JV = JV = 26  # Hangul V Jamo
-exports.JT = JT = 27  # Hangul T Jamo
-exports.RI = RI = 28  # Regional Indicator
+OP = 0   # Opening punctuation
+`export {OP}`
+CL = 1   # Closing punctuation
+`export {CL}`
+CP = 2   # Closing parenthesis
+`export {CP}`
+QU = 3   # Ambiguous quotation
+`export {QU}`
+GL = 4   # Glue
+`export {GL}`
+NS = 5   # Non-starters
+`export {NS}`
+EX = 6   # Exclamation/Interrogation
+`export {EX}`
+SY = 7   # Symbols allowing break after
+`export {SY}`
+IS = 8   # Infix separator
+`export {IS}`
+PR = 9   # Prefix
+`export {PR}`
+PO = 10  # Postfix
+`export {PO}`
+NU = 11  # Numeric
+`export {NU}`
+AL = 12  # Alphabetic
+`export {AL}`
+HL = 13  # Hebrew Letter
+`export {HL}`
+ID = 14  # Ideographic
+`export {ID}`
+IN = 15  # Inseparable characters
+`export {IN}`
+HY = 16  # Hyphen
+`export {HY}`
+BA = 17  # Break after
+`export {BA}`
+BB = 18  # Break before
+`export {BB}`
+B2 = 19  # Break on either side (but not pair)
+`export {B2}`
+ZW = 20  # Zero-width space
+`export {ZW}`
+CM = 21  # Combining marks
+`export {CM}`
+WJ = 22  # Word joiner
+`export {WJ}`
+H2 = 23  # Hangul LV
+`export {H2}`
+H3 = 24  # Hangul LVT
+`export {H3}`
+JL = 25  # Hangul L Jamo
+`export {JL}`
+JV = 26  # Hangul V Jamo
+`export {JV}`
+JT = 27  # Hangul T Jamo
+`export {JT}`
+RI = 28  # Regional Indicator
+`export {RI}`
 
 # The following break classes are not handled by the pair table
-exports.AI = AI = 29  # Ambiguous (Alphabetic or Ideograph)
-exports.BK = BK = 30  # Break (mandatory)
-exports.CB = CB = 31  # Contingent break
-exports.CJ = CJ = 32  # Conditional Japanese Starter
-exports.CR = CR = 33  # Carriage return
-exports.LF = LF = 34  # Line feed
-exports.NL = NL = 35  # Next line
-exports.SA = SA = 36  # South-East Asian
-exports.SG = SG = 37  # Surrogates
-exports.SP = SP = 38  # Space
-exports.XX = XX = 39  # Unknown
+AI = 29  # Ambiguous (Alphabetic or Ideograph)
+`export {AI}`
+BK = 30  # Break (mandatory)
+`export {BK}`
+CB = 31  # Contingent break
+`export {CB}`
+CJ = 32  # Conditional Japanese Starter
+`export {CJ}`
+CR = 33  # Carriage return
+`export {CR}`
+LF = 34  # Line feed
+`export {LF}`
+NL = 35  # Next line
+`export {NL}`
+SA = 36  # South-East Asian
+`export {SA}`
+SG = 37  # Surrogates
+`export {SG}`
+SP = 38  # Space
+`export {SP}`
+XX = 39  # Unknown
+`export {XX}`
