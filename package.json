@@ -27,6 +27,7 @@
     "mocha": "*",
     "rollup": "^0.41.6",
     "rollup-plugin-coffee-script": "^1.1.0",
+    "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-node-resolve": "^3.0.0"
   },
   "scripts": {
