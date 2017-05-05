@@ -33,7 +33,7 @@
     "rollup-plugin-node-resolve": "^3.0.0"
   },
   "scripts": {
-    "prepublish": "rollup -c",
+    "prepublish": "rollup -c rollup.es.config.js",
     "postpublish": "rm -rf dist/",
     "test": "node_modules/mocha/bin/mocha"
   },
