@@ -33,7 +33,9 @@
     "rollup-plugin-node-resolve": "^3.0.0"
   },
   "scripts": {
-    "prepublish": "rollup -c rollup.es.config.js",
+    "build:es": "rollup -c rollup.es.config.js",
+    "build:umd": "rollup -c rollup.umd.config.js",
+    "prepublish": "npm run build:es && npm run build:umd",
     "postpublish": "rm -rf dist/",
     "test": "node_modules/mocha/bin/mocha"
   },
