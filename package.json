@@ -39,7 +39,8 @@
     "postpublish": "rm -rf dist/",
     "test": "node_modules/mocha/bin/mocha"
   },
-  "main": "dist/linebreaker",
+  "main": "dist/linebreaker.umd.js",
+  "module": "dist/linebreaker.es.js",
   "browserify": {
     "transform": [
       "brfs"
