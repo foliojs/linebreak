@@ -6,7 +6,7 @@ import brfsBabel from 'brfs-babel'
 
 export default {
   entry: 'src/linebreaker.coffee',
-  dest: 'dist/linebreaker.js',
+  dest: 'dist/linebreaker.es.js',
   moduleName: 'linebreak',
   format: 'es',
   plugins: [
