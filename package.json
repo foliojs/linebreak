@@ -27,6 +27,7 @@
     "coffee-script": "^1.7.1",
     "mocha": "*",
     "rollup": "^0.41.6",
+    "rollup-plugin-babili": "^3.0.0",
     "rollup-plugin-browserify-transform": "^0.1.0",
     "rollup-plugin-coffee-script": "^1.1.0",
     "rollup-plugin-commonjs": "^8.0.2",
@@ -39,8 +40,8 @@
     "postpublish": "rm -rf dist/",
     "test": "node_modules/mocha/bin/mocha"
   },
-  "main": "dist/linebreaker.umd.js",
-  "module": "dist/linebreaker.es.js",
+  "main": "dist/linebreaker.umd.min.js",
+  "module": "dist/linebreaker.es.min.js",
   "browserify": {
     "transform": [
       "brfs"
