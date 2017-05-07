@@ -12,6 +12,7 @@ export default {
   moduleName: 'linebreak',
   format: 'umd',
   external: Object.keys(pkg.dependencies),
+  sourceMap: true,
   plugins: [
     coffeescript(),
     nodeResolve({extensions: ['.js', '.coffee']}),
