@@ -12,11 +12,8 @@ export default {
   format: 'umd',
   plugins: [
     coffeescript(),
-    nodeResolve({ extensions: ['.js', '.coffee'] }),
-    commonjs({
-      extensions: [ '.js', '.coffee' ],
-      sourceMap: false,
-    }),
+    nodeResolve({extensions: ['.js', '.coffee']}),
+    commonjs({extensions: ['.js', '.coffee']}),
     browserifyPlugin(brfsBabel, {exclude: 'node_modules/**'}),
     minify({comments: false}),
   ]
