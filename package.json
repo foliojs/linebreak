@@ -40,8 +40,8 @@
     "postpublish": "rm -rf dist/",
     "test": "node_modules/mocha/bin/mocha"
   },
-  "main": "dist/linebreaker.umd.min.js",
-  "module": "dist/linebreaker.es.min.js",
+  "main": "dist/linebreak.umd.min.js",
+  "module": "dist/linebreak.es.min.js",
   "browserify": {
     "transform": [
       "brfs"

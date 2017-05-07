@@ -8,7 +8,7 @@ var pkg = require('../package.json')
 
 export default {
   entry: 'src/linebreaker.coffee',
-  dest: 'dist/linebreaker.umd.min.js',
+  dest: 'dist/linebreak.umd.min.js',
   moduleName: 'linebreak',
   format: 'umd',
   external: Object.keys(pkg.dependencies),

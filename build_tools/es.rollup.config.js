@@ -8,7 +8,7 @@ var pkg = require('../package.json')
 
 export default {
   entry: 'src/linebreaker.coffee',
-  dest: 'dist/linebreaker.es.min.js',
+  dest: 'dist/linebreak.es.min.js',
   moduleName: 'linebreak',
   format: 'es',
   external: Object.keys(pkg.dependencies),
