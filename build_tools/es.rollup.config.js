@@ -12,11 +12,12 @@ export default {
   moduleName: 'linebreak',
   format: 'es',
   external: Object.keys(pkg.dependencies),
-  sourceMap: true,
+  sourceMap: false,
   plugins: [
     coffeescript(),
     nodeResolve({extensions: ['.js', '.coffee']}),
     commonjs({extensions: ['.js', '.coffee']}),
+    // browserifyPlugin / brfsBabel seems to break source maps
     browserifyPlugin(brfsBabel, {exclude: 'node_modules/**'}),
     minify({comments: false}),
   ]
