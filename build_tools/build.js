@@ -37,12 +37,21 @@ let promise = Promise.resolve()
 // Clean up the output directory
 promise = promise.then(() => del(['dist/']))
 
+const suppressWarnings = function (suppressedWarnings) {
+  return function (warning) {
+    if (suppressedWarnings.indexOf(warning.code) === -1 ) {
+      console.warn(warning.message)
+    }
+  }
+}
+
 // Compile source code into a distributable format with Babel and Rollup
 for (const config of bundles) {
   promise = promise.then(() => rollup.rollup({
     entry: 'src/linebreaker.coffee',
     external: Object.keys(pkg.dependencies),
     plugins: config.plugins,
+    onwarn: suppressWarnings(['MISSING_GLOBAL_NAME'])
   }))
   .then(bundle => bundle.write({
     dest: `dist/${config.moduleName || pkg.name}${config.ext}`,
