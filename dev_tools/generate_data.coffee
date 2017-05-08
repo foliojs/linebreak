@@ -1,6 +1,6 @@
 fs = require 'fs'
 request = require 'request'
-classes = require './classes'
+classes = require '../src/classes'
 UnicodeTrieBuilder = require 'unicode-trie/builder'
 
 # this loads the LineBreak.txt file for Unicode and parses it to
