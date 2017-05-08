@@ -35,8 +35,8 @@
     "rollup-plugin-node-resolve": "^3.0.0"
   },
   "scripts": {
-    "build": "node build_tools/build.js",
-    "generate-data": "coffee -c dev_tools/generate_data.coffee src/classes.coffee && node dev_tools/generate_data.js && rm dev_tools/generate_data.js src/classes.js",
+    "build": "node tools/build.js",
+    "generate-data": "coffee -c tools/generate_data.coffee src/classes.coffee && node tools/generate_data.js && rm tools/generate_data.js src/classes.js",
     "prepublishOnly": "npm run build",
     "postpublish": "rm -rf dist/",
     "test": "mocha"
