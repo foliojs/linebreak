@@ -26,6 +26,7 @@
     "coffee-script": "^1.7.1",
     "del": "^2.2.2",
     "mocha": "*",
+    "request": "^2.81.0",
     "rollup": "^0.41.6",
     "rollup-plugin-babili": "^3.0.0",
     "rollup-plugin-browserify-transform": "^0.1.0",
