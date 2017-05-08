@@ -25,6 +25,7 @@
   "devDependencies": {
     "brfs-babel": "^1.0.0",
     "coffee-script": "^1.7.1",
+    "del": "^2.2.2",
     "mocha": "*",
     "rollup": "^0.41.6",
     "rollup-plugin-babili": "^3.0.0",
