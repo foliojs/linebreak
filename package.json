@@ -37,7 +37,7 @@
     "build": "node build_tools/build.js",
     "prepublishOnly": "npm run build",
     "postpublish": "rm -rf dist/",
-    "test": "node_modules/mocha/bin/mocha"
+    "test": "mocha"
   },
   "main": "dist/linebreak.umd.min.js",
   "module": "dist/linebreak.es.min.js"
