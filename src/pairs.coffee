@@ -1,16 +1,11 @@
-DI_BRK = 0 # Direct break opportunity
-`export {DI_BRK}`
-IN_BRK = 1 # Indirect break opportunity
-`export {IN_BRK}`
-CI_BRK = 2 # Indirect break opportunity for combining marks
-`export {CI_BRK}`
-CP_BRK = 3 # Prohibited break for combining marks
-`export {CP_BRK}`
-PR_BRK = 4 # Prohibited break
-`export {PR_BRK}`
+exports.DI_BRK = DI_BRK = 0 # Direct break opportunity
+exports.IN_BRK = IN_BRK = 1 # Indirect break opportunity
+exports.CI_BRK = CI_BRK = 2 # Indirect break opportunity for combining marks
+exports.CP_BRK = CP_BRK = 3 # Prohibited break for combining marks
+exports.PR_BRK = PR_BRK = 4 # Prohibited break
       
 # table generated from http://www.unicode.org/reports/tr14/#Table2
-pairTable = [
+exports.pairTable = [
   [PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, CP_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK]
   [DI_BRK, PR_BRK, PR_BRK, IN_BRK, IN_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, IN_BRK, IN_BRK, DI_BRK, DI_BRK, DI_BRK, DI_BRK, DI_BRK, IN_BRK, IN_BRK, DI_BRK, DI_BRK, PR_BRK, CI_BRK, PR_BRK, DI_BRK, DI_BRK, DI_BRK, DI_BRK, DI_BRK, DI_BRK]
   [DI_BRK, PR_BRK, PR_BRK, IN_BRK, IN_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, IN_BRK, IN_BRK, IN_BRK, IN_BRK, IN_BRK, DI_BRK, DI_BRK, IN_BRK, IN_BRK, DI_BRK, DI_BRK, PR_BRK, CI_BRK, PR_BRK, DI_BRK, DI_BRK, DI_BRK, DI_BRK, DI_BRK, DI_BRK]
@@ -41,4 +36,3 @@ pairTable = [
   [DI_BRK, PR_BRK, PR_BRK, IN_BRK, IN_BRK, IN_BRK, PR_BRK, PR_BRK, PR_BRK, DI_BRK, IN_BRK, DI_BRK, DI_BRK, DI_BRK, DI_BRK, IN_BRK, IN_BRK, IN_BRK, DI_BRK, DI_BRK, PR_BRK, CI_BRK, PR_BRK, DI_BRK, DI_BRK, DI_BRK, DI_BRK, IN_BRK, DI_BRK]
   [DI_BRK, PR_BRK, PR_BRK, IN_BRK, IN_BRK, IN_BRK, PR_BRK, PR_BRK, PR_BRK, DI_BRK, DI_BRK, DI_BRK, DI_BRK, DI_BRK, DI_BRK, DI_BRK, IN_BRK, IN_BRK, DI_BRK, DI_BRK, PR_BRK, CI_BRK, PR_BRK, DI_BRK, DI_BRK, DI_BRK, DI_BRK, DI_BRK, IN_BRK]
 ]
-`export {pairTable}`
