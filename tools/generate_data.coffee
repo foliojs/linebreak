@@ -1,6 +1,6 @@
 fs = require 'fs'
 request = require 'request'
-classes = require './classes'
+classes = require '../src/classes'
 UnicodeTrieBuilder = require 'unicode-trie/builder'
 
 # this loads the LineBreak.txt file for Unicode and parses it to
@@ -39,4 +39,4 @@ request 'http://www.unicode.org/Public/7.0.0/ucd/LineBreak.txt', (err, res, data
   trie.setRange parseInt(start, 16), parseInt(end, 16), classes[type], true
 
   # write the trie to a file
-  fs.writeFile __dirname + '/classes.trie', trie.toBuffer()
+  fs.writeFile __dirname + '/../src/classes.trie', trie.toBuffer()

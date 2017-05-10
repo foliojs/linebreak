@@ -1,8 +1,8 @@
-UnicodeTrie = require 'unicode-trie'
-fs = require 'fs'
-base64 = require 'base64-js'
-{BK, CR, LF, NL, CB, BA, SP, WJ, SP, BK, LF, NL, AI, AL, SA, SG, XX, CJ, ID, NS, characterClasses} = require './classes'
-{DI_BRK, IN_BRK, CI_BRK, CP_BRK, PR_BRK, pairTable} = require './pairs'
+`import UnicodeTrie from 'unicode-trie'`
+`import fs from 'fs'`
+`import base64 from 'base64-js'`
+`import {BK, CR, LF, NL, CB, BA, SP, WJ, AI, AL, SA, SG, XX, CJ, ID, NS} from './classes'`
+`import {DI_BRK, IN_BRK, CI_BRK, CP_BRK, PR_BRK, pairTable} from './pairs'`
 
 data = base64.toByteArray fs.readFileSync __dirname + '/classes.trie', 'base64'
 classTrie = new UnicodeTrie data
@@ -98,4 +98,4 @@ class LineBreaker
       else
         return null
           
-module.exports = LineBreaker
+`export default LineBreaker`
