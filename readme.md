@@ -48,9 +48,9 @@ while (bk = breaker.nextBreak()) {
 In order to use the library, you shouldn't need to know this, but if you're interested in
 contributing or fixing bugs, these things might be of interest.
 
-* The `src/classes.coffee` file is automatically generated from `LineBreak.txt` in the Unicode 
-  database by `src/generate_data.coffee`. It should be rare that you need to run this, but
-  you may if, for instance, you want to change the Unicode version.
+* The `src/classes.trie` file is automatically generated from `LineBreak.txt` in the Unicode
+  database by `tools/generate_data.coffee`. It should be rare that you need to run this, but
+  you may if, for instance, you want to change the Unicode version. You can run it with `npm run generate-data`
   
 * You can run the tests using `npm test`. They are written using `mocha`, and generated from
   `LineBreakTest.txt` from the Unicode database, which is included in the repository for performance
