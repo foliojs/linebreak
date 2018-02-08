@@ -1,10 +1,12 @@
 UnicodeTrie = require 'unicode-trie'
 fs = require 'fs'
+os = require 'os'
 base64 = require 'base64-js'
 {BK, CR, LF, NL, CB, BA, SP, WJ, SP, BK, LF, NL, AI, AL, SA, SG, XX, CJ, ID, NS, characterClasses} = require './classes'
 {DI_BRK, IN_BRK, CI_BRK, CP_BRK, PR_BRK, pairTable} = require './pairs'
 
-data = base64.toByteArray fs.readFileSync __dirname + '/classes.trie', 'base64'
+file = if os.endianness() == 'BE' then '/classes.trie.be' else '/classes.trie'
+data = base64.toByteArray fs.readFileSync __dirname + file, 'base64'
 classTrie = new UnicodeTrie data
 
 class LineBreaker
