@@ -1,4 +1,5 @@
 fs = require 'fs'
+path = require 'path'
 punycode = require 'punycode'
 LineBreaker = require '../'
 assert = require 'assert'
@@ -16,7 +17,8 @@ describe 'unicode line break tests', ->
           4850, 4851, 4852, 4854, 4855, 4856, 4858, 4859, 4960, 4962, 5036, 5038, 6126, 6135, 6140, 6225,
           6226, 6227, 6228, 6229, 6230, 6232, 6233, 6234, 6235, 6236, 6332]
   
-  data = fs.readFileSync __dirname + '/LineBreakTest.txt', 'utf8'
+  dataPath = path.join __dirname, 'LineBreakTest.txt'
+  data = fs.readFileSync dataPath, 'utf8'
   lines = data.split '\n'  
 
   lines.forEach (line, i) ->
