@@ -37,7 +37,7 @@
   "scripts": {
     "build": "node tools/rollup_build_script.js",
     "generate-data": "coffee -c tools/generate_data.coffee src/classes.coffee && node tools/generate_data.js && rm tools/generate_data.js src/classes.js",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "npm run generate-data && npm run build",
     "postpublish": "rm -rf dist/",
     "test": "node_modules/mocha/bin/mocha test/index.coffee"
   },
