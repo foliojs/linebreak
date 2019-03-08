@@ -23,23 +23,23 @@
   },
   "devDependencies": {
     "brfs-babel": "^1.0.0",
-    "coffee-script": "^1.7.1",
-    "del": "^2.2.2",
+    "coffeescript": "^2.3.2",
+    "del": "^4.0.0",
     "mocha": "*",
     "request": "^2.81.0",
-    "rollup": "^0.41.6",
-    "rollup-plugin-babili": "^3.0.0",
-    "rollup-plugin-browserify-transform": "^0.1.0",
-    "rollup-plugin-coffee-script": "^1.1.0",
-    "rollup-plugin-commonjs": "^8.0.2",
-    "rollup-plugin-node-resolve": "^3.0.0"
+    "rollup": "^1.4.1",
+    "rollup-plugin-babel-minify": "^7.0.0",
+    "rollup-plugin-browserify-transform": "^1.0.1",
+    "rollup-plugin-coffee-script": "^2.0.0",
+    "rollup-plugin-commonjs": "^9.2.1",
+    "rollup-plugin-node-resolve": "^4.0.1"
   },
   "scripts": {
     "build": "node tools/rollup_build_script.js",
     "generate-data": "coffee -c tools/generate_data.coffee src/classes.coffee && node tools/generate_data.js && rm tools/generate_data.js src/classes.js",
     "prepublishOnly": "npm run build",
     "postpublish": "rm -rf dist/",
-    "test": "node_modules/mocha/bin/mocha"
+    "test": "node_modules/mocha/bin/mocha test/index.coffee"
   },
   "main": "dist/linebreak.umd.min.js",
   "module": "dist/linebreak.es.min.js"
