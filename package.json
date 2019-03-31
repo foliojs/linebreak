@@ -23,10 +23,9 @@
     "unicode-trie": "^0.3.0"
   },
   "devDependencies": {
-    "coffee-script": "^1.7.1",
     "mocha": "^6.0.2"
   },
-  "scripts": {        
+  "scripts": {
     "test": "mocha"
   },
   "main": "src/linebreaker",
