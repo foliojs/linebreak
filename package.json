@@ -24,12 +24,10 @@
   },
   "devDependencies": {
     "coffee-script": "^1.7.1",
-    "mocha": "*"
+    "mocha": "^6.0.2"
   },
-  "scripts": {
-    "prepublish": "coffee -c src/",
-    "postpublish": "rm -rf src/*.js",
-    "test": "node_modules/mocha/bin/mocha"
+  "scripts": {        
+    "test": "mocha \"test/**/*.{js,coffee}\""
   },
   "main": "src/linebreaker",
   "browserify": {
