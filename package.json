@@ -27,7 +27,7 @@
     "mocha": "^6.0.2"
   },
   "scripts": {        
-    "test": "mocha \"test/**/*.{js,coffee}\""
+    "test": "mocha"
   },
   "main": "src/linebreaker",
   "browserify": {
