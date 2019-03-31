@@ -1,10 +1,3 @@
-/*
- * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 const fs = require('fs');
 const request = require('request');
 const classes = require('./classes');
@@ -22,7 +15,7 @@ request('http://www.unicode.org/Public/7.0.0/ucd/LineBreak.txt', function(err, r
 
   // collect entries in the linebreaking table into ranges
   // to keep things smaller.
-  for (let match of Array.from(matches)) {
+  for (let match of matches) {
     var rangeEnd, rangeType;
     match = match.split(/;|\.\./);
     const rangeStart = match[0];
@@ -51,5 +44,5 @@ request('http://www.unicode.org/Public/7.0.0/ucd/LineBreak.txt', function(err, r
   trie.setRange(parseInt(start, 16), parseInt(end, 16), classes[type], true);
 
   // write the trie to a file
-  return fs.writeFile(__dirname + '/classes.trie', trie.toBuffer());
+  fs.writeFile(__dirname + '/classes.trie', trie.toBuffer());
 });
