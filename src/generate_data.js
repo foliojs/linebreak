@@ -4,7 +4,7 @@ const classes = require('./classes');
 const UnicodeTrieBuilder = require('unicode-trie/builder');
 
 // this loads the LineBreak.txt file for Unicode and parses it to
-// combine ranges and generate CoffeeScript
+// combine ranges and generate JavaScript
 request('http://www.unicode.org/Public/7.0.0/ucd/LineBreak.txt', function(err, res, data) {
   const matches = data.match(/^[0-9A-F]+(\.\.[0-9A-F]+)?;[A-Z][A-Z0-9]/gm);
 
