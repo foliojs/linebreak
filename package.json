@@ -20,7 +20,7 @@
   "dependencies": {
     "base64-js": "0.0.8",
     "brfs": "^2.0.2",
-    "unicode-trie": "^0.3.0"
+    "unicode-trie": "^1.0.0"
   },
   "devDependencies": {
     "mocha": "^6.0.2"
