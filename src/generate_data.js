@@ -44,5 +44,5 @@ request('http://www.unicode.org/Public/7.0.0/ucd/LineBreak.txt', function(err, r
   trie.setRange(parseInt(start, 16), parseInt(end, 16), classes[type], true);
 
   // write the trie to a file
-  fs.writeFile(__dirname + '/classes.trie', trie.toBuffer());
+  fs.writeFileSync(__dirname + '/classes.trie', trie.toBuffer());
 });
