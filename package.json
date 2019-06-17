@@ -23,13 +23,10 @@
     "unicode-trie": "^0.3.0"
   },
   "devDependencies": {
-    "coffee-script": "^1.7.1",
-    "mocha": "*"
+    "mocha": "^6.0.2"
   },
   "scripts": {
-    "prepublish": "coffee -c src/",
-    "postpublish": "rm -rf src/*.js",
-    "test": "node_modules/mocha/bin/mocha"
+    "test": "mocha"
   },
   "main": "src/linebreaker",
   "browserify": {
