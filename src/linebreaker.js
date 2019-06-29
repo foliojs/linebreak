@@ -1,8 +1,7 @@
-let AI, AL, BA, BK, CB, CJ, CR, ID, LF, NL, NS, SA, SG, SP, WJ, XX;
 const UnicodeTrie = require('unicode-trie');
 const fs = require('fs');
 const base64 = require('base64-js');
-({ BK, CR, LF, NL, CB, BA, SP, WJ, SP, BK, LF, NL, AI, AL, SA, SG, XX, CJ, ID, NS } = require('./classes'));
+const { BK, CR, LF, NL, SG, WJ, CB, SP, BA, NS, AI, AL, CJ, ID, SA, XX } = require('./classes');
 const { DI_BRK, IN_BRK, CI_BRK, CP_BRK, PR_BRK, pairTable } = require('./pairs');
 
 const data = base64.toByteArray(fs.readFileSync(__dirname + '/classes.trie', 'base64'));
@@ -48,7 +47,7 @@ class Break {
     this.position = position;
     this.required = required;
   }
-};
+}
 
 class LineBreaker {
   constructor(string) {
@@ -94,7 +93,7 @@ class LineBreaker {
       }
 
       // handle classes not handled by the pair table
-      let cur
+      let cur;
       switch (this.nextClass) {
         case SP:
           cur = this.curClass;
@@ -163,6 +162,6 @@ class LineBreaker {
       }
     }
   }
-};
+}
 
 module.exports = LineBreaker;
