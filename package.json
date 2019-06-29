@@ -23,7 +23,8 @@
     "unicode-trie": "^1.0.0"
   },
   "devDependencies": {
-    "mocha": "^6.0.2"
+    "mocha": "^6.0.2",
+    "request": "^2.88.0"
   },
   "scripts": {
     "test": "mocha"
