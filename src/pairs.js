@@ -4,7 +4,7 @@ exports.IN_BRK = (IN_BRK = 1); // Indirect break opportunity
 exports.CI_BRK = (CI_BRK = 2); // Indirect break opportunity for combining marks
 exports.CP_BRK = (CP_BRK = 3); // Prohibited break for combining marks
 exports.PR_BRK = (PR_BRK = 4); // Prohibited break
-      
+
 // table generated from http://www.unicode.org/reports/tr14/#Table2
 exports.pairTable = [
   [PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, CP_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK],
