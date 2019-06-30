@@ -5,7 +5,7 @@ const UnicodeTrieBuilder = require('unicode-trie/builder');
 
 // this loads the LineBreak.txt file for Unicode and parses it to
 // combine ranges and generate JavaScript
-request('http://www.unicode.org/Public/9.0.0/ucd/LineBreak.txt', function (err, res, data) {
+request('http://www.unicode.org/Public/11.0.0/ucd/LineBreak.txt', function (err, res, data) {
   const matches = data.match(/^[0-9A-F]+(\.\.[0-9A-F]+)?;[A-Z][A-Z0-9]([A-Z])?/gm);
 
   let start = null;

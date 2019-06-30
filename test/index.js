@@ -6,8 +6,8 @@ const assert = require('assert');
 describe('unicode line break tests', function () {
   // these tests are weird, possibly incorrect or just tailored differently. we skip them.
   const skip = [
-    1137, 1139, 1141, 1143, 1305, 1307, 1309, 1311, 2977, 2979, 4493, 4495, 4661, 4663, 5161, 5163,
-    7133, 7142, 7147, 7232, 7233, 7234, 7235, 7236, 7237, 7239, 7240, 7241, 7242, 7243
+    1140, 1142, 1144, 1146, 1308, 1310, 1312, 1314, 2980, 2982, 4496, 4498, 4664, 4666, 5164, 5166,
+    7136, 7145, 7150, 7235, 7236, 7237, 7238, 7239, 7240, 7242, 7243, 7244, 7245, 7246
   ];
 
   const data = fs.readFileSync(__dirname + '/LineBreakTest.txt', 'utf8');
