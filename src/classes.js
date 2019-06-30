@@ -1,5 +1,4 @@
 // The following break classes are handled by the pair table
-
 exports.OP = 0;   // Opening punctuation
 exports.CL = 1;   // Closing punctuation
 exports.CP = 2;   // Closing parenthesis
@@ -29,11 +28,11 @@ exports.JL = 25;  // Hangul L Jamo
 exports.JV = 26;  // Hangul V Jamo
 exports.JT = 27;  // Hangul T Jamo
 exports.RI = 28;  // Regional Indicator
+exports.CB = 29;  // Contingent break
 
 // The following break classes are not handled by the pair table
-exports.AI = 29;  // Ambiguous (Alphabetic or Ideograph)
-exports.BK = 30;  // Break (mandatory)
-exports.CB = 31;  // Contingent break
+exports.AI = 30;  // Ambiguous (Alphabetic or Ideograph)
+exports.BK = 31;  // Break (mandatory)
 exports.CJ = 32;  // Conditional Japanese Starter
 exports.CR = 33;  // Carriage return
 exports.LF = 34;  // Line feed

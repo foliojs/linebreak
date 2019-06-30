@@ -31,9 +31,6 @@ const mapFirst = function (c) {
     case NL:
       return BK;
 
-    case CB:
-      return BA;
-
     case SP:
       return WJ;
 
@@ -78,7 +75,9 @@ class LineBreaker {
   nextBreak() {
     // get the first char if we're at the beginning of the string
     if (this.curClass == null) {
-      this.curClass = mapFirst(this.nextCharClass());
+      let firstClass = this.nextCharClass()
+      this.curClass = mapFirst(firstClass);
+      this.nextClass = firstClass;
     }
 
     while (this.pos < this.string.length) {
@@ -107,10 +106,6 @@ class LineBreaker {
 
         case CR:
           cur = CR;
-          break;
-
-        case CB:
-          cur = BA;
           break;
       }
 
