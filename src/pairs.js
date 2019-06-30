@@ -6,6 +6,7 @@ exports.CP_BRK = (CP_BRK = 3); // Prohibited break for combining marks
 exports.PR_BRK = (PR_BRK = 4); // Prohibited break
 
 // Based on example pair table from https://www.unicode.org/reports/tr14/tr14-37.html#Table2
+// - special processing for LB8a
 // - CB manually added as per Rule LB20
 exports.pairTable = [
   //OP   , CL    , CP    , QU    , GL    , NS    , EX    , SY    , IS    , PR    , PO    , NU    , AL    , HL    , ID    , IN    , HY    , BA    , BB    , B2    , ZW    , CM    , WJ    , H2    , H3    , JL    , JV    , JT    , RI    , EB    , EM    , ZWJ   , CB
