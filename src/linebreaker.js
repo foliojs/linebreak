@@ -1,7 +1,7 @@
 const UnicodeTrie = require('unicode-trie');
 const fs = require('fs');
 const base64 = require('base64-js');
-const { BK, CR, LF, NL, SG, WJ, CB, SP, BA, HY, NS, AI, AL, CJ, HL, ID, RI, SA, XX } = require('./classes');
+const { BK, CR, LF, NL, SG, WJ, CB, SP, ZWJ, BA, HY, NS, AI, AL, CJ, HL, ID, RI, SA, XX } = require('./classes');
 const { DI_BRK, IN_BRK, CI_BRK, CP_BRK, PR_BRK, pairTable } = require('./pairs');
 
 const data = base64.toByteArray(fs.readFileSync(__dirname + '/classes.trie', 'base64'));
@@ -53,6 +53,7 @@ class LineBreaker {
     this.lastPos = 0;
     this.curClass = null;
     this.nextClass = null;
+    this.LB8a = false;
     this.LB21a = false;
     this.LB30a = 0;
   }
@@ -80,6 +81,7 @@ class LineBreaker {
       let firstClass = this.nextCharClass()
       this.curClass = mapFirst(firstClass);
       this.nextClass = firstClass;
+      this.LB8a = (firstClass === ZWJ);
       this.LB30a = 0;
     }
 
@@ -114,6 +116,10 @@ class LineBreaker {
 
       if (cur != null) {
         this.curClass = cur;
+
+        // Rule LB8a
+        this.LB8a = (this.nextClass === ZWJ);
+
         if (this.nextClass === CB) {
           return new Break(this.lastPos);
         }
@@ -144,6 +150,13 @@ class LineBreaker {
           }
           break;
       }
+
+      if (this.LB8a) {
+        shouldBreak = false;
+      }
+
+      // Rule LB8a
+      this.LB8a = (this.nextClass === ZWJ);
 
       // Rule LB21a
       if (this.LB21a && (this.curClass === HY || this.curClass === BA)) {
