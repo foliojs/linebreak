@@ -1,7 +1,7 @@
 const UnicodeTrie = require('unicode-trie');
 const fs = require('fs');
 const base64 = require('base64-js');
-const { BK, CR, LF, NL, SG, WJ, CB, SP, BA, NS, AI, AL, CJ, ID, SA, XX } = require('./classes');
+const { BK, CR, LF, NL, SG, WJ, CB, SP, BA, HY, NS, AI, AL, CJ, HL, ID, SA, XX } = require('./classes');
 const { DI_BRK, IN_BRK, CI_BRK, CP_BRK, PR_BRK, pairTable } = require('./pairs');
 
 const data = base64.toByteArray(fs.readFileSync(__dirname + '/classes.trie', 'base64'));
@@ -53,6 +53,7 @@ class LineBreaker {
     this.lastPos = 0;
     this.curClass = null;
     this.nextClass = null;
+    this.LB21a = false;
   }
 
   nextCodePoint() {
@@ -140,6 +141,14 @@ class LineBreaker {
             continue;
           }
           break;
+      }
+
+      // LB21a
+      if (this.LB21a && (this.curClass === HY || this.curClass === BA)) {
+        shouldBreak = false;
+        this.LB21a = false;
+      } else {
+        this.LB21a = (this.curClass === HL);
       }
 
       this.curClass = this.nextClass;
