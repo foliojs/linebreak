@@ -7,7 +7,8 @@ describe('unicode line break tests', function () {
   // these tests are weird, possibly incorrect or just tailored differently. we skip them.
   const skip = [
     1140, 1142, 1144, 1146, 1308, 1310, 1312, 1314, 2980, 2982, 4496, 4498, 4664, 4666, 5164, 5166,
-    7136, 7145, 7150, 7235, 7236, 7237, 7238, 7239, 7240, 7242, 7243, 7244, 7245, 7246
+    6250, 6258, 6266, 6290, 6294, 6306, 6318, 6322, 6326, 6378, 6382, 6386, 7136, 7145, 7150, 7235,
+    7236, 7237, 7238, 7239, 7240, 7242, 7243, 7244, 7245, 7246
   ];
 
   const data = fs.readFileSync(__dirname + '/LineBreakTest.txt', 'utf8');
