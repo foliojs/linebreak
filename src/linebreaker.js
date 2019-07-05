@@ -75,6 +75,81 @@ class LineBreaker {
     return mapClass(classTrie.get(this.nextCodePoint()));
   }
 
+  getSimpleBreak() {
+    // handle classes not handled by the pair table
+    switch (this.nextClass) {
+      case SP:
+        return false;
+
+      case BK:
+      case LF:
+      case NL:
+        this.curClass = BK;
+        return false;
+
+      case CR:
+        this.curClass = CR;
+        return false;
+    }
+
+    return null;
+  }
+
+  getPairTableBreak(lastClass) {
+    // if not handled already, use the pair table
+    let shouldBreak = false;
+    switch (pairTable[this.curClass][this.nextClass]) {
+      case DI_BRK: // Direct break
+        shouldBreak = true;
+        break;
+
+      case IN_BRK: // possible indirect break
+        shouldBreak = lastClass === SP;
+        break;
+
+      case CI_BRK:
+        shouldBreak = lastClass === SP;
+        if (!shouldBreak) {
+          shouldBreak = false;
+          return shouldBreak;
+        }
+        break;
+
+      case CP_BRK: // prohibited for combining marks
+        if (lastClass !== SP) {
+          return shouldBreak;
+        }
+        break;
+    }
+
+    if (this.LB8a) {
+      shouldBreak = false;
+    }
+
+    // Rule LB21a
+    if (this.LB21a && (this.curClass === HY || this.curClass === BA)) {
+      shouldBreak = false;
+      this.LB21a = false;
+    } else {
+      this.LB21a = (this.curClass === HL);
+    }
+
+    // Rule LB30a
+    if (this.curClass === RI) {
+      this.LB30a++;
+      if (this.LB30a == 2 && (this.nextClass === RI)) {
+        shouldBreak = true;
+        this.LB30a = 0;
+      }
+    } else {
+      this.LB30a = 0;
+    }
+
+    this.curClass = this.nextClass;
+
+    return shouldBreak;
+  }
+
   nextBreak() {
     // get the first char if we're at the beginning of the string
     if (this.curClass == null) {
@@ -96,88 +171,15 @@ class LineBreaker {
         return new Break(this.lastPos, true);
       }
 
-      // handle classes not handled by the pair table
-      let cur;
-      switch (this.nextClass) {
-        case SP:
-          cur = this.curClass;
-          break;
+      let shouldBreak = this.getSimpleBreak();
 
-        case BK:
-        case LF:
-        case NL:
-          cur = BK;
-          break;
-
-        case CR:
-          cur = CR;
-          break;
-      }
-
-      if (cur != null) {
-        this.curClass = cur;
-
-        // Rule LB8a
-        this.LB8a = (this.nextClass === ZWJ);
-
-        if (this.nextClass === CB) {
-          return new Break(this.lastPos);
-        }
-        continue;
-      }
-
-      // if not handled already, use the pair table
-      let shouldBreak = false;
-      switch (pairTable[this.curClass][this.nextClass]) {
-        case DI_BRK: // Direct break
-          shouldBreak = true;
-          break;
-
-        case IN_BRK: // possible indirect break
-          shouldBreak = lastClass === SP;
-          break;
-
-        case CI_BRK:
-          shouldBreak = lastClass === SP;
-          if (!shouldBreak) {
-            continue;
-          }
-          break;
-
-        case CP_BRK: // prohibited for combining marks
-          if (lastClass !== SP) {
-            continue;
-          }
-          break;
-      }
-
-      if (this.LB8a) {
-        shouldBreak = false;
+      if (shouldBreak === null) {
+        shouldBreak = this.getPairTableBreak(lastClass);
       }
 
       // Rule LB8a
       this.LB8a = (this.nextClass === ZWJ);
 
-      // Rule LB21a
-      if (this.LB21a && (this.curClass === HY || this.curClass === BA)) {
-        shouldBreak = false;
-        this.LB21a = false;
-      } else {
-        this.LB21a = (this.curClass === HL);
-      }
-
-      // Rule LB30a
-      if (this.curClass === RI) {
-        this.LB30a++;
-        if (this.LB30a == 2 && (this.nextClass === RI)) {
-          shouldBreak = true;
-          this.LB30a = 0;
-        }
-      } else {
-        this.LB30a = 0;
-      }
-
-      this.curClass = this.nextClass;
       if (shouldBreak) {
         return new Break(this.lastPos);
       }
