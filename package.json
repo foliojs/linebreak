@@ -30,7 +30,7 @@
   "scripts": {
     "build": "node tools/build",
     "prepublishOnly": "npm run build",
-    "test": "mocha"
+    "test": "npm run build && mocha"
   },
   "main": "src/linebreaker.js",
   "browser": "src/linebreaker-browser.js"

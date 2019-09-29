@@ -1,9 +1,10 @@
 const fs = require('fs');
 const punycode = require('punycode');
-const LineBreaker = require('../');
+const LineBreakerNode = require('../src/linebreaker');
+const LineBreakerBrowser = require('../src/linebreaker-browser');
 const assert = require('assert');
 
-describe('unicode line break tests', function () {
+function runTests(LineBreaker) {
   // these tests are weird, possibly incorrect or just tailored differently. we skip them.
   const skip = [812,   814,  848,  850,  864,  866,  900,  902,  956,  958, 1068, 1070, 1072, 1074, 1224, 1226,
           1228, 1230, 1760, 1762, 2932, 2934, 4100, 4101, 4102, 4103, 4340, 4342, 4496, 4498, 4568, 4570,
@@ -49,4 +50,12 @@ describe('unicode line break tests', function () {
 
     it(cols, () => assert.deepEqual(breaks, expected, i + ' ' + JSON.stringify(breaks) + ' != ' + JSON.stringify(expected) + ' #' + comment));
   });
+}
+
+describe('node - unicode line break tests', function () {
+  runTests(LineBreakerNode);
+});
+
+describe('browser - unicode line break tests', function () {
+  runTests(LineBreakerBrowser);
 });
