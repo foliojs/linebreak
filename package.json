@@ -24,15 +24,14 @@
   },
   "devDependencies": {
     "mocha": "^6.0.2",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "static-module": "^3.0.3"
   },
   "scripts": {
+    "build": "node tools/build",
+    "prepublishOnly": "npm run build",
     "test": "mocha"
   },
-  "main": "src/linebreaker",
-  "browserify": {
-    "transform": [
-      "brfs"
-    ]
-  }
+  "main": "src/linebreaker.js",
+  "browser": "src/linebreaker-browser.js"
 }

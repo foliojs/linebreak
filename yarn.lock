@@ -1243,7 +1243,7 @@ static-eval@^2.0.2:
   dependencies:
     escodegen "^1.8.1"
 
-static-module@^3.0.2:
+static-module@^3.0.2, static-module@^3.0.3:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/static-module/-/static-module-3.0.3.tgz#cc2301ed3fe353e2d2a2195137013853676f9960"
   integrity sha512-RDaMYaI5o/ym0GkCqL/PlD1Pn216omp8fY81okxZ6f6JQxWW5tptOw9reXoZX85yt/scYvbWIt6uoszeyf+/MQ==

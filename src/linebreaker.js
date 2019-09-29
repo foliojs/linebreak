@@ -4,6 +4,7 @@ const { BK, CR, LF, NL, SG, WJ, CB, SP, BA, NS, AI, AL, CJ, ID, SA, XX } = requi
 const { DI_BRK, IN_BRK, CI_BRK, CP_BRK, PR_BRK, pairTable } = require('./pairs');
 
 const data = fs.readFileSync(__dirname + '/classes.trie');
+
 const classTrie = new UnicodeTrie(data);
 
 const mapClass = function (c) {
