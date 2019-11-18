@@ -1,6 +1,6 @@
 const fs = require('fs');
 const punycode = require('punycode');
-const LineBreaker = require('../');
+const LineBreaker = require('../src/linebreaker');
 const assert = require('assert');
 
 describe('unicode line break tests', function () {
