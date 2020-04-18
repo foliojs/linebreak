@@ -27,7 +27,7 @@
     "request": "^2.88.0"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha --reporter landing"
   },
   "main": "src/linebreaker",
   "browserify": {
