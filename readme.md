@@ -54,7 +54,7 @@ contributing or fixing bugs, these things might be of interest.
 
 * You can run the tests using `npm test`. They are written using `mocha`, and generated from
   `LineBreakTest.txt` from the Unicode database, which is included in the repository for performance
-  reasons while running them. About 30 of the over 7000 tests are currently skipped due to
+  reasons while running them. About 50 of the over 7600 tests are currently skipped due to
   implementation differences. It appears that some of the tests may be wrong or use different
   tailoring from the spec.
 

@@ -6,14 +6,17 @@ const assert = require('assert');
 describe('unicode line break tests', function () {
   // these tests are weird, possibly incorrect or just tailored differently. we skip them.
   const skip = [
-    1140, 1142, 1144, 1146, 1308, 1310, 1312, 1314, 2980, 2982, 4496, 4498, 4664, 4666, 5164, 5166,
-    7136, 7145, 7150, 7235, 7236, 7237, 7238, 7239, 7240, 7242, 7243, 7244, 7245, 7246
+    125, 127, 815, 1161, 1163, 1165, 1167, 1331, 2189, 2191, 2873, 2875, 3567, 3739, 4081, 4083,
+    4425, 4427, 4473, 4475, 4597, 4599, 4645, 4647, 4943, 5109, 5111, 5459, 6149, 6151, 6153, 6155,
+    6489, 6491, 6663, 6833, 6835, 7005, 7007, 7177, 7179, 7477, 7486, 7491, 7576, 7577, 7578, 7579,
+    7580, 7581, 7583, 7584, 7585, 7586, 7587, 7604, 7610, 7611
   ];
 
   const data = fs.readFileSync(__dirname + '/LineBreakTest.txt', 'utf8');
   const lines = data.split('\n');
 
   return lines.forEach(function (line, i) {
+    let rowNumber = i + 1;
     let bk;
     if (!line || /^#/.test(line)) { return; }
 
@@ -36,11 +39,11 @@ describe('unicode line break tests', function () {
       return punycode.ucs2.encode(codes);
     });
 
-    if (skip.includes(i)) {
+    if (skip.includes(rowNumber)) {
       it.skip(cols, function () { });
       return;
     }
 
-    it(cols, () => assert.deepEqual(breaks, expected, i + ' ' + JSON.stringify(breaks) + ' != ' + JSON.stringify(expected) + ' #' + comment));
+    it(cols, () => assert.deepEqual(breaks, expected, rowNumber + ' ' + JSON.stringify(breaks) + ' != ' + JSON.stringify(expected) + ' #' + comment));
   });
 });
