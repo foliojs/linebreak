@@ -1,5 +1,4 @@
 const fs = require('fs');
-const punycode = require('punycode');
 const LineBreaker = require('../');
 const assert = require('assert');
 
@@ -22,7 +21,7 @@ describe('unicode line break tests', function () {
 
     const [cols, comment] = line.split('#');
     const codePoints = cols.split(/\s*[×÷]\s*/).slice(1, -1).map(c => parseInt(c, 16));
-    const str = punycode.ucs2.encode(codePoints);
+    const str = String.fromCodePoint(...codePoints);
 
     const breaker = new LineBreaker(str);
     const breaks = [];
@@ -36,7 +35,7 @@ describe('unicode line break tests', function () {
       let codes = c.split(/\s*×\s*/);
       if (codes[0] === '') { codes.shift(); }
       codes = codes.map(c => parseInt(c, 16));
-      return punycode.ucs2.encode(codes);
+      return String.fromCodePoint(...codes);
     });
 
     if (skip.includes(rowNumber)) {
@@ -44,6 +43,6 @@ describe('unicode line break tests', function () {
       return;
     }
 
-    it(cols, () => assert.deepEqual(breaks, expected, rowNumber + ' ' + JSON.stringify(breaks) + ' != ' + JSON.stringify(expected) + ' #' + comment));
+    it(cols, () => assert.deepStrictEqual(breaks, expected, rowNumber + ' ' + JSON.stringify(breaks) + ' != ' + JSON.stringify(expected) + ' #' + comment));
   });
 });
