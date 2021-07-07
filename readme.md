@@ -7,11 +7,10 @@ An implementation of the Unicode Line Breaking Algorithm (UAX #14)
 > The selection of actual line break positions from the set of break opportunities is not covered by the Unicode Line Breaking Algorithm,
 > but is in the domain of higher level software with knowledge of the available width and the display size of the text.
 
-This is a JavaScript implementation of the
-[Unicode Line Breaking Algorithm](http://www.unicode.org/reports/tr14/#SampleCode) for Node.js
-(and browsers I guess).  It is used by [PDFKit](http://github.com/devongovett/pdfkit/) for
-line wrapping text in PDF documents, but since the algorithm knows nothing about the actual
-visual appearance or layout of text, it could be used for other things as well.
+This is a JavaScript implementation of the [Unicode Line Breaking Algorithm](http://www.unicode.org/reports/tr14/#SampleCode) for Node.js
+(and browsers I guess). Currently supports Unicode version 13. It is used by [PDFKit](http://github.com/devongovett/pdfkit/) for
+line wrapping text in PDF documents, but since the algorithm knows nothing about the actual visual appearance or layout of text, 
+it could be used for other things as well.
 
 ## Installation
 
