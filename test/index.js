@@ -26,7 +26,7 @@ describe('unicode line break tests', function () {
     const breaker = new LineBreaker(str);
     const breaks = [];
     let last = 0;
-    while ((bk = breaker.nextBreak())) {
+    while (bk = breaker.nextBreak()) {
       breaks.push(str.slice(last, bk.position));
       last = bk.position;
     }

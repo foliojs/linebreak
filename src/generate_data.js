@@ -33,7 +33,7 @@ request('http://www.unicode.org/Public/13.0.0/ucd/LineBreak.txt', function (err,
       type = null;
     }
 
-    if ((type == null)) {
+    if (type == null) {
       start = rangeStart;
       type = rangeType;
     }
