@@ -1,15 +1,14 @@
-let CI_BRK, CP_BRK, DI_BRK, IN_BRK, PR_BRK;
-exports.DI_BRK = (DI_BRK = 0); // Direct break opportunity
-exports.IN_BRK = (IN_BRK = 1); // Indirect break opportunity
-exports.CI_BRK = (CI_BRK = 2); // Indirect break opportunity for combining marks
-exports.CP_BRK = (CP_BRK = 3); // Prohibited break for combining marks
-exports.PR_BRK = (PR_BRK = 4); // Prohibited break
+export const DI_BRK = 0; // Direct break opportunity
+export const IN_BRK = 1; // Indirect break opportunity
+export const CI_BRK = 2; // Indirect break opportunity for combining marks
+export const CP_BRK = 3; // Prohibited break for combining marks
+export const PR_BRK = 4; // Prohibited break
 
 // Based on example pair table from https://www.unicode.org/reports/tr14/tr14-37.html#Table2
 // - ZWJ special processing for LB8a of Revision 41
 // - CB manually added as per Rule LB20
 // - CL, CP, NS, SY, IS, PR, PO, HY, BA, B2 and RI manually adjusted as per LB22 of Revision 45
-exports.pairTable = [
+export const pairTable = [
   //OP   , CL    , CP    , QU    , GL    , NS    , EX    , SY    , IS    , PR    , PO    , NU    , AL    , HL    , ID    , IN    , HY    , BA    , BB    , B2    , ZW    , CM    , WJ    , H2    , H3    , JL    , JV    , JT    , RI    , EB    , EM    , ZWJ   , CB
   [PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, CP_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK], // OP
   [DI_BRK, PR_BRK, PR_BRK, IN_BRK, IN_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, IN_BRK, IN_BRK, DI_BRK, DI_BRK, DI_BRK, DI_BRK, IN_BRK, IN_BRK, IN_BRK, DI_BRK, DI_BRK, PR_BRK, CI_BRK, PR_BRK, DI_BRK, DI_BRK, DI_BRK, DI_BRK, DI_BRK, DI_BRK, DI_BRK, DI_BRK, IN_BRK, DI_BRK], // CL

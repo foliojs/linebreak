@@ -38,5 +38,17 @@
     "test": "parcel build && mocha --reporter landing",
     "build": "parcel build",
     "prepublishOnly": "parcel build"
+  },
+  "targets": {
+    "main": {
+      "includeNodeModules": [
+        "fs"
+      ]
+    },
+    "module": {
+      "includeNodeModules": [
+        "fs"
+      ]
+    }
   }
 }
