@@ -1,11 +1,11 @@
-const fs = require('fs');
-const request = require('request');
-const classes = require('./classes');
-const UnicodeTrieBuilder = require('unicode-trie/builder');
+import fs from 'fs';
+import request from 'request';
+import * as classes from './classes.js';
+import UnicodeTrieBuilder from 'unicode-trie/builder.js';
 
 // this loads the LineBreak.txt file for Unicode and parses it to
 // combine ranges and generate JavaScript
-request('http://www.unicode.org/Public/13.0.0/ucd/LineBreak.txt', function (err, res, data) {
+request('http://www.unicode.org/Public/14.0.0/ucd/LineBreak.txt', function (err, res, data) {
   const matches = data.match(/^[0-9A-F]+(\.\.[0-9A-F]+)?;[A-Z][A-Z0-9]([A-Z])?/gm);
 
   let start = null;
@@ -44,5 +44,5 @@ request('http://www.unicode.org/Public/13.0.0/ucd/LineBreak.txt', function (err,
   trie.setRange(parseInt(start, 16), parseInt(end, 16), classes[type], true);
 
   // write the trie to a file
-  fs.writeFileSync(__dirname + '/classes.trie', trie.toBuffer());
+  fs.writeFileSync(new URL('classes.trie', import.meta.url), trie.toBuffer());
 });
