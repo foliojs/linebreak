@@ -188,14 +188,12 @@ class LineBreaker {
       }
     }
 
-    if (this.pos >= this.string.length) {
-      if (this.lastPos < this.string.length) {
-        this.lastPos = this.string.length;
-        return new Break(this.string.length);
-      } else {
-        return null;
-      }
+    if (this.lastPos < this.string.length) {
+      this.lastPos = this.string.length;
+      return new Break(this.string.length);
     }
+
+    return null;
   }
 }
 
