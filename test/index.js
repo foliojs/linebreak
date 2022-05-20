@@ -1,7 +1,7 @@
-const fs = require('fs');
-const punycode = require('punycode');
-const LineBreaker = require('../src/linebreaker');
-const assert = require('assert');
+import fs from 'fs';
+import punycode from 'punycode';
+import LineBreaker from 'linebreak';
+import assert from 'assert';
 
 describe('unicode line break tests', function () {
   // these tests are weird, possibly incorrect or just tailored differently. we skip them.
@@ -10,7 +10,7 @@ describe('unicode line break tests', function () {
     7136, 7145, 7150, 7235, 7236, 7237, 7238, 7239, 7240, 7242, 7243, 7244, 7245, 7246
   ];
 
-  const data = fs.readFileSync(__dirname + '/LineBreakTest.txt', 'utf8');
+  const data = fs.readFileSync(new URL('LineBreakTest.txt', import.meta.url), 'utf8');
   const lines = data.split('\n');
 
   return lines.forEach(function (line, i) {
