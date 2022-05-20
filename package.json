@@ -4,7 +4,11 @@
   "description": "An implementation of the Unicode Line Breaking Algorithm (UAX #14)",
   "source": "src/linebreaker.js",
   "main": "dist/main.js",
-  "module": "dist/module.js",
+  "module": "dist/module.mjs",
+  "exports": {
+    "require": "./dist/main.js",
+    "import": "./dist/module.mjs"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/devongovett/linebreaker.git"
@@ -22,15 +26,16 @@
   "homepage": "https://github.com/devongovett/linebreaker",
   "dependencies": {
     "base64-js": "0.0.8",
-    "unicode-trie": "^1.0.0"
+    "unicode-trie": "^2.0.0"
   },
   "devDependencies": {
     "mocha": "^6.0.2",
-    "parcel": "^2.0.0-alpha.2.1",
+    "parcel": "^2.5.0",
     "request": "^2.88.0"
   },
   "scripts": {
     "test": "mocha",
-    "prepublishOnly": "parcel build . --no-minify"
+    "build": "parcel build",
+    "prepublishOnly": "parcel build"
   }
 }
