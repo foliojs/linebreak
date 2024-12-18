@@ -38,7 +38,7 @@
     "request": "^2.88.0"
   },
   "scripts": {
-    "test": "parcel build && mocha --reporter landing",
+    "test": "parcel build && mocha test/index.js --reporter landing",
     "build": "parcel build",
     "prepublishOnly": "parcel build"
   },
