@@ -43,6 +43,8 @@ request('https://www.unicode.org/Public/15.0.0/ucd/LineBreak.txt', function (err
 
   trie.setRange(parseInt(start, 16), parseInt(end, 16), classes[type], true);
 
-  // write the trie to a file
-  fs.writeFileSync(new URL('classes.trie', import.meta.url), trie.toBuffer());
+  // write the trie Uint8Array to a file
+  const trieBuffer = trie.toBuffer();
+  const output = `export default new Uint8Array([${[...trieBuffer].join(',')}]);\n`;
+  fs.writeFileSync(new URL('classes-trie-data.js', import.meta.url), output);
 });
