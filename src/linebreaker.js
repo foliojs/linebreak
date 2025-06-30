@@ -1,10 +1,8 @@
 import UnicodeTrie from 'unicode-trie';
-import fs from 'fs';
-import base64 from 'base64-js';
 import { BK, CR, LF, NL, SG, WJ, SP, ZWJ, BA, HY, NS, AI, AL, CJ, HL, RI, SA, XX } from './classes';
 import { DI_BRK, IN_BRK, CI_BRK, CP_BRK, PR_BRK, pairTable } from './pairs';
+import data from './classes-trie-data.js';
 
-const data = base64.toByteArray(fs.readFileSync(__dirname + '/classes.trie', 'base64'));
 const classTrie = new UnicodeTrie(data);
 
 const mapClass = function (c) {
