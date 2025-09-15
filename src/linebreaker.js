@@ -193,6 +193,16 @@ class LineBreaker {
 
     return null;
   }
+
+  *[Symbol.iterator]() {
+    let breakInfo = null;
+    let last = 0;
+    while ((breakInfo = this.nextBreak()) != null) {
+      const substring = this.string.slice(last, breakInfo.position);
+      last = breakInfo.position;
+      yield Object.assign({ substring }, breakInfo);
+    };
+  }
 }
 
-module.exports = LineBreaker;
+export default LineBreaker;

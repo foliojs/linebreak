@@ -16,27 +16,49 @@ it could be used for other things as well.
 
 You can install via npm
 
-    npm install linebreak
+```sh
+npm install linebreak
+```
 
-## Example
+## Examples
+
+### Using Iterable Protocol and `for...of`
 
 ```javascript
-var LineBreaker = require('linebreak');
+import LineBreaker from 'linebreak';
 
-var lorem = 'lorem ipsum...';
-var breaker = new LineBreaker(lorem);
-var last = 0;
-var bk;
+const text = 'Hello world...\n1.5, 2.\n(Hello, world?)\nfoo(bar), foo_bar, foo-bar.';
+
+for (const bk of new LineBreaker(text)) {
+  console.log(bk.substring.replace(/ $/, '~') + (bk.required ? '<brk>' : ''));
+}
+
+// Hello~
+// world...
+// <brk>
+// 1.5,~
+// 2.
+// <brk>
+// (Hello,~
+// world?)
+// <brk>
+// foo(bar),~
+// foo_bar,~
+// foo-
+// bar.
+```
+
+### Using `nextBreak()`
+
+```javascript
+const breaker = new LineBreaker(text);
+let last = 0;
+let bk = null;
 
 while (bk = breaker.nextBreak()) {
   // get the string between the last break and this one
-  var word = lorem.slice(last, bk.position);
-  console.log(word);
-
-  // you can also check bk.required to see if this was a required break...
-  if (bk.required) {
-    console.log('\n\n');
-  }
+  const substring = text.slice(last, bk.position);
+  console.log(substring.replace(/ $/, '~') + (bk.required ? '<brk>' : ''));
 
   last = bk.position;
 }
