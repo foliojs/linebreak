@@ -32,15 +32,18 @@ export const EB = 29;  // Emoji Base
 export const EM = 30;  // Emoji Modifier
 export const ZWJ = 31; // Zero Width Joiner
 export const CB = 32;  // Contingent break
+// East Asian (wide/full/halfwidth) opening punctuation is split out so Rule
+// LB30 does not treat it like its narrow form.
+export const OP_EA = 33; // Opening punctuation, East Asian
 
 // The following break classes are not handled by the pair table
-export const AI = 33;  // Ambiguous (Alphabetic or Ideograph)
-export const BK = 34;  // Break (mandatory)
-export const CJ = 35;  // Conditional Japanese Starter
-export const CR = 36;  // Carriage return
-export const LF = 37;  // Line feed
-export const NL = 38;  // Next line
-export const SA = 39;  // South-East Asian
-export const SG = 40;  // Surrogates
-export const SP = 41;  // Space
-export const XX = 42;  // Unknown
+export const AI = 34;  // Ambiguous (Alphabetic or Ideograph)
+export const BK = 35;  // Break (mandatory)
+export const CJ = 36;  // Conditional Japanese Starter
+export const CR = 37;  // Carriage return
+export const LF = 38;  // Line feed
+export const NL = 39;  // Next line
+export const SA = 40;  // South-East Asian
+export const SG = 41;  // Surrogates
+export const SP = 42;  // Space
+export const XX = 43;  // Unknown
