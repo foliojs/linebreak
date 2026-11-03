@@ -2,16 +2,10 @@
   "name": "linebreak",
   "version": "1.1.0",
   "description": "An implementation of the Unicode Line Breaking Algorithm (UAX #14)",
-  "source": "src/linebreaker.js",
   "type": "module",
-  "main": "dist/main.cjs",
-  "module": "dist/module.mjs",
-  "exports": {
-    "import": "./dist/module.mjs",
-    "require": "./dist/main.cjs"
-  },
+  "main": "src/linebreaker.js",
   "files": [
-    "dist"
+    "src"
   ],
   "repository": {
     "type": "git",
@@ -32,25 +26,9 @@
     "unicode-trie": "^3.0.0"
   },
   "devDependencies": {
-    "mocha": "^12.0.3",
-    "parcel": "^2.16.4",
-    "request": "^2.88.2"
+    "mocha": "^12.0.3"
   },
   "scripts": {
-    "test": "parcel build && mocha test/index.js --reporter landing",
-    "build": "parcel build",
-    "prepublishOnly": "parcel build"
-  },
-  "targets": {
-    "main": {
-      "includeNodeModules": [
-        "fs"
-      ]
-    },
-    "module": {
-      "includeNodeModules": [
-        "fs"
-      ]
-    }
+    "test": "mocha test/index.js --reporter landing"
   }
 }
