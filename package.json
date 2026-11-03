@@ -29,12 +29,12 @@
   },
   "homepage": "https://github.com/devongovett/linebreaker",
   "dependencies": {
-    "unicode-trie": "^2.0.0"
+    "unicode-trie": "^3.0.0"
   },
   "devDependencies": {
-    "mocha": "^10.0.0",
-    "parcel": "^2.13.3",
-    "request": "^2.88.0"
+    "mocha": "^12.0.3",
+    "parcel": "^2.16.4",
+    "request": "^2.88.2"
   },
   "scripts": {
     "test": "parcel build && mocha test/index.js --reporter landing",

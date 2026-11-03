@@ -1,7 +1,7 @@
 import fs from 'fs';
 import request from 'request';
 import * as classes from './classes.js';
-import UnicodeTrieBuilder from 'unicode-trie/builder.js';
+import { UnicodeTrieBuilder } from 'unicode-trie/builder.js';
 
 // this loads the LineBreak.txt file for Unicode and parses it to
 // combine ranges and generate JavaScript
