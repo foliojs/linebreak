@@ -1,6 +1,6 @@
 {
   "name": "linebreak",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "An implementation of the Unicode Line Breaking Algorithm (UAX #14)",
   "type": "module",
   "main": "src/linebreaker.js",
