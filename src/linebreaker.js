@@ -188,7 +188,8 @@ export class LineBreaker {
 
     if (this.lastPos < this.string.length) {
       this.lastPos = this.string.length;
-      return new Break(this.string.length);
+      const required = (this.curClass === BK) || ((this.curClass === CR) && (this.nextClass !== LF));
+      return new Break(this.string.length, required)
     }
 
     return null;
