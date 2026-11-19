@@ -28,6 +28,9 @@
   "devDependencies": {
     "mocha": "^12.0.3"
   },
+  "engines": {
+    "node": ">=20.17.0"
+  },
   "scripts": {
     "test": "mocha test/index.js --reporter landing"
   }
