@@ -3,3 +3,4 @@ export const CLASS_MASK = 0xff;
 export const INITIAL_PUNCTUATION = 0x100;
 export const FINAL_PUNCTUATION = 0x200;
 export const EAST_ASIAN = 0x400;
+export const UNASSIGNED_EXTENDED_PICTOGRAPHIC = 0x800;

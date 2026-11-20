@@ -1,6 +1,6 @@
 import fs from 'fs';
 import * as classes from './classes.js';
-import { INITIAL_PUNCTUATION, FINAL_PUNCTUATION, EAST_ASIAN } from './trie-properties.js';
+import { INITIAL_PUNCTUATION, FINAL_PUNCTUATION, EAST_ASIAN, UNASSIGNED_EXTENDED_PICTOGRAPHIC } from './trie-properties.js';
 import { UnicodeTrieBuilder } from 'unicode-trie/builder.js';
 import { UNICODE_VERSION } from './unicode-version.js';
 
@@ -75,6 +75,15 @@ async function generateData() {
 
   const categoryData = await categoryResponse.text();
 
+  // LB1: SA marks resolve to CM; other SA characters resolve to AL at runtime.
+  for (const [, start, end = start] of categoryData.matchAll(/^([0-9A-F]+)(?:\.\.([0-9A-F]+))?\s*;\s*(?:Mn|Mc)\b/gm)) {
+    for (let cp = parseInt(start, 16); cp <= parseInt(end, 16); cp++) {
+      if (trie.get(cp) === classes.SA) {
+        trie.set(cp, classes.CM);
+      }
+    }
+  }
+
   // LB15a/LB15b need General_Category as well as Line_Break=QU
   for (const [, start, end = start, category] of categoryData.matchAll(/^([0-9A-F]+)(?:\.\.([0-9A-F]+))?\s*;\s*(Pi|Pf)\b/gm)) {
     const flag = category === 'Pi' ? INITIAL_PUNCTUATION : FINAL_PUNCTUATION;
@@ -85,7 +94,7 @@ async function generateData() {
     }
   }
 
-  // Treat unassigned Extended_Pictographic code points as emoji bases for LB30b
+  // Preserve the line break class while flagging unassigned Extended_Pictographic for LB30b.
   const unassigned = new Uint8Array(0x110000);
   for (const [, start, end = start] of categoryData.matchAll(/^([0-9A-F]+)(?:\.\.([0-9A-F]+))?\s*;\s*Cn\b/gm)) {
     unassigned.fill(1, parseInt(start, 16), parseInt(end, 16) + 1);
@@ -96,12 +105,12 @@ async function generateData() {
     const rangeEnd = parseInt(end, 16);
     for (let cp = parseInt(start, 16); cp <= rangeEnd; cp++) {
       if (unassigned[cp]) {
-        trie.setRange(cp, cp, classes.EB, true);
+        trie.set(cp, trie.get(cp) | UNASSIGNED_EXTENDED_PICTOGRAPHIC);
       }
     }
   }
 
-  // LB19a, LB21a and LB30 use East Asian Width alongside the line break class.
+  // LB19a and LB30 use East Asian Width alongside the line break class.
   for (let cp = 0; cp <= 0x10ffff; cp++) {
     if (isEastAsianWide(cp)) {
       trie.set(cp, trie.get(cp) | EAST_ASIAN);

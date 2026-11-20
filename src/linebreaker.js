@@ -2,9 +2,9 @@ import { UnicodeTrie } from 'unicode-trie';
 import {
   BK, CR, LF, NL, SG, WJ, SP, ZW, ZWJ, BA, HY, NS, AI, AL, CJ, HL, RI, SA,
   OP, QU, GL, CL, CP, EX, IS, SY, CM, AK, AP, AS, VF, VI, XX, NU, PR, PO, CB,
-  BB, B2, IN, ID, EB, EM, JL, JV, JT, H2, H3
+  BB, B2, IN, ID, EB, EM, JL, JV, JT, H2, H3, HH
 } from './classes.js';
-import { CLASS_MASK, INITIAL_PUNCTUATION, FINAL_PUNCTUATION, EAST_ASIAN } from './trie-properties.js';
+import { CLASS_MASK, INITIAL_PUNCTUATION, FINAL_PUNCTUATION, EAST_ASIAN, UNASSIGNED_EXTENDED_PICTOGRAPHIC } from './trie-properties.js';
 import data from './classes-trie-data.js';
 
 export { UNICODE_VERSION } from './unicode-version.js';
@@ -102,6 +102,7 @@ export class LineBreaker {
       eastAsian: type !== CM && type !== ZWJ && (value & EAST_ASIAN) !== 0,
       initialPunctuation: (value & INITIAL_PUNCTUATION) !== 0,
       finalQuote: (value & FINAL_PUNCTUATION) !== 0,
+      unassignedExtendedPictographic: (value & UNASSIGNED_EXTENDED_PICTOGRAPHIC) !== 0,
       numeric: type === NU || ((type === SY || type === IS) && !!this.context?.numeric),
       numericClose: (type === CL || type === CP) && !!this.context?.numeric,
       regionalIndicators: type === RI ? (this.context?.regionalIndicators ?? 0) + 1 : 0,
@@ -163,7 +164,7 @@ export class LineBreaker {
     }
 
     // LB12a
-    if (right.type === GL && lastClass !== SP && left.type !== BA && left.type !== HY) {
+    if (right.type === GL && lastClass !== SP && left.type !== BA && left.type !== HY && left.type !== HH) {
       return false;
     }
 
@@ -221,18 +222,18 @@ export class LineBreaker {
     }
 
     // LB20a: word-initial hyphens
-    if ((left.type === HY || left.codePoint === 0x2010) && right.type === AL &&
+    if ((left.type === HY || left.type === HH) && alphabeticClasses.has(right.type) &&
         (!before || hyphenStartClasses.has(before.type))) {
       return false;
     }
 
     // LB21
-    if (right.type === BA || right.type === HY || right.type === NS || left.type === BB) {
+    if (right.type === BA || right.type === HY || right.type === HH || right.type === NS || left.type === BB) {
       return false;
     }
 
     // LB21a/LB21b
-    if ((before?.type === HL && (left.type === HY || (left.type === BA && !left.eastAsian)) && right.type !== HL) ||
+    if ((before?.type === HL && (left.type === HY || left.type === HH) && right.type !== HL) ||
         (left.type === SY && right.type === HL)) {
       return false;
     }
@@ -316,8 +317,8 @@ export class LineBreaker {
       return false;
     }
 
-    // LB30b: the trie also maps unassigned Extended_Pictographic to EB.
-    if (left.type === EB && right.type === EM) {
+    // LB30b
+    if ((left.type === EB || left.unassignedExtendedPictographic) && right.type === EM) {
       return false;
     }
 

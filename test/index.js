@@ -5,10 +5,10 @@ import assert from 'assert';
 describe('unicode line break tests', function () {
   // these tests are weird, possibly incorrect or just tailored differently. we skip them.
   const skip = [
-    5701, 5703, 5869, 5871, 5957, 5959, 6125, 6127, 6277, 6279,
-    6789, 6791, 7281, 7283, 7285, 7287, 13425, 13427, 13429, 13431,
-    16461, 16470, 16475, 16560, 16561, 16562, 16563, 16564, 16565, 16567,
-    16568, 16569, 16570, 16571
+    4351, 4353, 4359, 4361, 4627, 4629, 4635, 4637, 9579, 9581,
+    12895, 12897, 12899, 12901, 13447, 13449, 13451, 13453, 15651, 15653,
+    19123, 19132, 19137, 19222, 19223, 19224, 19225, 19226, 19227, 19229,
+    19230, 19231, 19232, 19233
   ];
 
   const data = fs.readFileSync(new URL('LineBreakTest.txt', import.meta.url), 'utf8');

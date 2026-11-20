@@ -45,4 +45,5 @@ export const NL = 43;  // Next line
 export const SA = 44;  // South-East Asian
 export const SG = 45;  // Surrogates
 export const SP = 46;  // Space
-export const XX = 47;  // Unknown
+export const HH = 47;  // Unambiguous Hyphen
+export const XX = 48;  // Unknown
