@@ -1,5 +1,6 @@
 import fs from 'fs';
 import * as classes from './classes.js';
+import { INITIAL_PUNCTUATION, FINAL_PUNCTUATION } from './trie-properties.js';
 import { UnicodeTrieBuilder } from 'unicode-trie/builder.js';
 import { UNICODE_VERSION } from './unicode-version.js';
 
@@ -54,7 +55,7 @@ async function generateData() {
   }
 
   const lbData = await lbResponse.text();
-  const matches = lbData.matchAll(/^([0-9A-F]+)(?:\.\.([0-9A-F]+))?;([A-Z][A-Z0-9][A-Z]?)/gm);
+  const matches = lbData.matchAll(/^([0-9A-F]+)(?:\.\.([0-9A-F]+))?\s*;\s*([A-Z][A-Z0-9][A-Z]?)/gm);
 
   const eawData = await eawResponse.text();
   const isEastAsianWide = parseEastAsianWide(eawData);
@@ -62,10 +63,14 @@ async function generateData() {
   const trie = new UnicodeTrieBuilder(classes.XX);
 
   for (const [, start, end = start, type] of matches) {
+    if (!Number.isInteger(classes[type])) {
+      throw new Error(`Unknown line break class: ${type}`);
+    }
+
     const rangeStart = parseInt(start, 16);
     const rangeEnd = parseInt(end, 16);
 
-    // Split East Asian opening punctuation and closing parentheses for LB30.
+    // Split East Asian opening punctuation and closing parentheses for LB30
     if (type === 'OP' || type === 'CP') {
       for (let cp = rangeStart; cp <= rangeEnd; cp++) {
         trie.setRange(cp, cp, isEastAsianWide(cp) ? classes[`${type}_EA`] : classes[type], true);
@@ -75,8 +80,19 @@ async function generateData() {
     }
   }
 
-  // Treat unassigned Extended_Pictographic code points as emoji bases for LB30b.
   const categoryData = await categoryResponse.text();
+
+  // LB15a/LB15b need General_Category as well as Line_Break=QU
+  for (const [, start, end = start, category] of categoryData.matchAll(/^([0-9A-F]+)(?:\.\.([0-9A-F]+))?\s*;\s*(Pi|Pf)\b/gm)) {
+    const flag = category === 'Pi' ? INITIAL_PUNCTUATION : FINAL_PUNCTUATION;
+    for (let cp = parseInt(start, 16); cp <= parseInt(end, 16); cp++) {
+      if (trie.get(cp) === classes.QU) {
+        trie.set(cp, classes.QU | flag);
+      }
+    }
+  }
+
+  // Treat unassigned Extended_Pictographic code points as emoji bases for LB30b
   const unassigned = new Uint8Array(0x110000);
   for (const [, start, end = start] of categoryData.matchAll(/^([0-9A-F]+)(?:\.\.([0-9A-F]+))?\s*;\s*Cn\b/gm)) {
     unassigned.fill(1, parseInt(start, 16), parseInt(end, 16) + 1);

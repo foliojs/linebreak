@@ -1,11 +1,19 @@
 import { UnicodeTrie } from 'unicode-trie';
-import { BK, CR, LF, NL, SG, WJ, SP, ZWJ, BA, HY, NS, AI, AL, CJ, HL, RI, SA, XX } from './classes.js';
+import {
+  BK, CR, LF, NL, SG, WJ, SP, ZW, ZWJ, BA, HY, NS, AI, AL, CJ, HL, RI, SA,
+  OP, OP_EA, QU, GL, CL, CP, CP_EA, EX, IS, SY, CM, AK, AP, AS, VF, VI, XX
+} from './classes.js';
+import { CLASS_MASK, INITIAL_PUNCTUATION, FINAL_PUNCTUATION } from './trie-properties.js';
 import { DI_BRK, IN_BRK, CI_BRK, CP_BRK, PR_BRK, pairTable } from './pairs.js';
 import data from './classes-trie-data.js';
 
 export { UNICODE_VERSION } from './unicode-version.js';
 
 const classTrie = new UnicodeTrie(data);
+const quoteStartClasses = new Set([BK, CR, LF, NL, OP, OP_EA, QU, GL, SP, ZW]);
+const quoteEndClasses = new Set([SP, GL, WJ, CL, QU, CP, CP_EA, EX, IS, SY, BK, CR, LF, NL, ZW]);
+const combiningExceptions = new Set([BK, CR, LF, NL, SP, ZW]);
+const isAksara = (context) => context && (context.type === AK || context.type === AS || context.codePoint === 0x25cc);
 
 const mapClass = function (c) {
   switch (c) {
@@ -56,6 +64,8 @@ export class LineBreaker {
     this.LB8a = false;
     this.LB21a = false;
     this.LB30a = 0;
+    this.context = null;
+    this.previousContext = null;
   }
 
   nextCodePoint() {
@@ -72,7 +82,72 @@ export class LineBreaker {
   }
 
   nextCharClass() {
-    return mapClass(classTrie.get(this.nextCodePoint()));
+    const codePoint = this.nextCodePoint();
+    const value = classTrie.get(codePoint);
+    const type = mapClass(value & CLASS_MASK);
+    this.leftContext = this.context;
+    this.beforeLeftContext = this.previousContext;
+
+    // LB9: attached combining marks inherit their base's properties and context
+    if ((type === CM || type === ZWJ) && this.context && !combiningExceptions.has(this.context.type)) {
+      return type;
+    }
+
+    this.previousContext = this.context;
+    this.context = {
+      type: type === CM || type === ZWJ ? AL : type,
+      codePoint,
+      finalQuote: (value & FINAL_PUNCTUATION) !== 0,
+      initialQuote: type === SP ? !!this.context?.initialQuote :
+        (value & INITIAL_PUNCTUATION) !== 0 && (!this.context || quoteStartClasses.has(this.context.type))
+    };
+    return type;
+  }
+
+  followingClass() {
+    // Look ahead past marks attached to the right-hand character (LB9)
+    let pos = this.pos;
+    while (pos < this.string.length) {
+      const codePoint = this.string.codePointAt(pos);
+      pos += codePoint > 0xffff ? 2 : 1;
+      const type = mapClass(classTrie.get(codePoint) & CLASS_MASK);
+      if (type !== CM && type !== ZWJ) {
+        return type;
+      }
+    }
+    return null;
+  }
+
+  getContextualBreak(shouldBreak, lastClass) {
+    const left = this.leftContext;
+    const right = this.context;
+
+    // LB8 takes precedence over the quotation rules
+    if (this.curClass !== ZW) {
+      // LB15a: initial quotation punctuation, including any following spaces
+      if (left.initialQuote) {
+        shouldBreak = false;
+      }
+      // LB15b: final quotation punctuation before closing punctuation or end of text
+      if (right.finalQuote) {
+        const following = this.followingClass();
+        if (following === null || quoteEndClasses.has(following)) {
+          shouldBreak = false;
+        }
+      }
+    }
+
+    // LB18 precedes LB28a: a space always ends an orthographic syllable
+    if (lastClass !== SP) {
+      // LB28a: preserve Brahmic orthographic syllables, including dotted circles
+      if ((left.type === AP && isAksara(right)) ||
+          (isAksara(left) && (right.type === VF || right.type === VI)) ||
+          (isAksara(this.beforeLeftContext) && left.type === VI && (right.type === AK || right.codePoint === 0x25cc)) ||
+          (isAksara(left) && isAksara(right) && this.followingClass() === VF)) {
+        shouldBreak = false;
+      }
+    }
+    return shouldBreak;
   }
 
   getSimpleBreak() {
@@ -128,6 +203,8 @@ export class LineBreaker {
     if (this.LB8a) {
       shouldBreak = false;
     }
+
+    shouldBreak = this.getContextualBreak(shouldBreak, lastClass);
 
     // Rule LB21a
     if (this.LB21a && (this.curClass === HY || this.curClass === BA)) {
