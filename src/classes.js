@@ -32,15 +32,17 @@ export const EB = 29;  // Emoji Base
 export const EM = 30;  // Emoji Modifier
 export const ZWJ = 31; // Zero Width Joiner
 export const CB = 32;  // Contingent break
+export const OP_EA = 33; // Opening punctuation, East Asian
+export const CP_EA = 34; // Closing parenthesis, East Asian
 
 // The following break classes are not handled by the pair table
-export const AI = 33;  // Ambiguous (Alphabetic or Ideograph)
-export const BK = 34;  // Break (mandatory)
-export const CJ = 35;  // Conditional Japanese Starter
-export const CR = 36;  // Carriage return
-export const LF = 37;  // Line feed
-export const NL = 38;  // Next line
-export const SA = 39;  // South-East Asian
-export const SG = 40;  // Surrogates
-export const SP = 41;  // Space
-export const XX = 42;  // Unknown
+export const AI = 35;  // Ambiguous (Alphabetic or Ideograph)
+export const BK = 36;  // Break (mandatory)
+export const CJ = 37;  // Conditional Japanese Starter
+export const CR = 38;  // Carriage return
+export const LF = 39;  // Line feed
+export const NL = 40;  // Next line
+export const SA = 41;  // South-East Asian
+export const SG = 42;  // Surrogates
+export const SP = 43;  // Space
+export const XX = 44;  // Unknown

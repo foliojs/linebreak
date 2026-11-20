@@ -53,7 +53,7 @@ contributing or fixing bugs, these things might be of interest.
 
 * You can run the tests using `npm test`. They are written using `mocha`, and generated from
   `LineBreakTest.txt` from the Unicode database, which is included in the repository for performance
-  reasons while running them. About 50 of the over 7600 tests are currently skipped due to
+  reasons while running them. About 40 of the over 7600 tests are currently skipped due to
   implementation differences. It appears that some of the tests may be wrong or use different
   tailoring from the spec. To update the `LineBreakTest.txt` file, use the script
   `test/update_test_file.js`, which downloads and updates the tests for the new Unicode version.
