@@ -1,12 +1,13 @@
 import fs from 'fs';
-import https from'https';
 import { UNICODE_VERSION } from '../src/unicode-version.js';
 
-const file = fs.createWriteStream('LineBreakTest.txt');
-https.get(`https://www.unicode.org/Public/${UNICODE_VERSION}/ucd/auxiliary/LineBreakTest.txt`, function(response) {
-   response.pipe(file);
-   file.on("finish", () => {
-       file.close();
-       console.log("Test file updated.");
-   });
-});
+const response = await fetch(`https://www.unicode.org/Public/${UNICODE_VERSION}/ucd/auxiliary/LineBreakTest.txt`);
+if (!response.ok) {
+  throw new Error(`Failed to download LineBreakTest.txt: ${response.status} ${response.statusText}`);
+}
+const data = await response.text();
+if (!data.startsWith(`# LineBreakTest-${UNICODE_VERSION}.txt`)) {
+  throw new Error('Unexpected Unicode test file version');
+}
+await fs.writeFileSync(new URL('LineBreakTest.txt', import.meta.url), data);
+console.log('Test file updated.');
