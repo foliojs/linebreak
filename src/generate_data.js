@@ -31,7 +31,7 @@ const parseEastAsianWide = (data) => {
   };
 }
 
-// Load LineBreak.txt and EastAsianWidth.txt to generate the class trie
+// Load LineBreak.txt, EastAsianWidth.txt, emoji-data.txt and DerivedGeneralCategory.txt to generate the class trie
 async function generateData() {
   const lbResponse = await fetch(`https://www.unicode.org/Public/${UNICODE_VERSION}/ucd/LineBreak.txt`);
   if (!lbResponse.ok) {
@@ -41,6 +41,16 @@ async function generateData() {
   const eawResponse = await fetch(`https://www.unicode.org/Public/${UNICODE_VERSION}/ucd/EastAsianWidth.txt`);
   if (!eawResponse.ok) {
     throw new Error(`Failed to download EastAsianWidth.txt: ${eawResponse.status} ${eawResponse.statusText}`);
+  }
+
+  const emojiResponse = await fetch(`https://www.unicode.org/Public/${UNICODE_VERSION}/ucd/emoji/emoji-data.txt`);
+  if (!emojiResponse.ok) {
+    throw new Error(`Failed to download emoji-data.txt: ${emojiResponse.status} ${emojiResponse.statusText}`);
+  }
+
+  const categoryResponse = await fetch(`https://www.unicode.org/Public/${UNICODE_VERSION}/ucd/extracted/DerivedGeneralCategory.txt`);
+  if (!categoryResponse.ok) {
+    throw new Error(`Failed to download DerivedGeneralCategory.txt: ${categoryResponse.status} ${categoryResponse.statusText}`);
   }
 
   const lbData = await lbResponse.text();
@@ -62,6 +72,23 @@ async function generateData() {
       }
     } else {
       trie.setRange(rangeStart, rangeEnd, classes[type], true);
+    }
+  }
+
+  // Treat unassigned Extended_Pictographic code points as emoji bases for LB30b.
+  const categoryData = await categoryResponse.text();
+  const unassigned = new Uint8Array(0x110000);
+  for (const [, start, end = start] of categoryData.matchAll(/^([0-9A-F]+)(?:\.\.([0-9A-F]+))?\s*;\s*Cn\b/gm)) {
+    unassigned.fill(1, parseInt(start, 16), parseInt(end, 16) + 1);
+  }
+
+  const emojiData = await emojiResponse.text();
+  for (const [, start, end = start] of emojiData.matchAll(/^([0-9A-F]+)(?:\.\.([0-9A-F]+))?\s*;\s*Extended_Pictographic\b/gm)) {
+    const rangeEnd = parseInt(end, 16);
+    for (let cp = parseInt(start, 16); cp <= rangeEnd; cp++) {
+      if (unassigned[cp]) {
+        trie.setRange(cp, cp, classes.EB, true);
+      }
     }
   }
 
