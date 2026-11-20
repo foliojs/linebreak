@@ -2,17 +2,6 @@ import fs from 'fs';
 import * as classes from './classes.js';
 import { UnicodeTrieBuilder } from 'unicode-trie/builder.js';
 
-const setTypedRange = (trie, start, end, type, isEastAsianWide) => {
-  // Split East Asian opening punctuation and closing parentheses for LB30.
-  if (type === 'OP' || type === 'CP') {
-    for (let cp = start; cp <= end; cp++) {
-      trie.setRange(cp, cp, isEastAsianWide(cp) ? classes[`${type}_EA`] : classes[type], true);
-    }
-  } else {
-    trie.setRange(start, end, classes[type], true);
-  }
-}
-
 // Build a predicate for East Asian Wide/Fullwidth/Halfwidth code points
 const parseEastAsianWide = (data) => {
   const ranges = [];
@@ -54,45 +43,26 @@ async function generateData() {
   }
 
   const lbData = await lbResponse.text();
-  const matches = lbData.match(/^[0-9A-F]+(\.\.[0-9A-F]+)?;[A-Z][A-Z0-9]([A-Z])?/gm);
+  const matches = lbData.matchAll(/^([0-9A-F]+)(?:\.\.([0-9A-F]+))?;([A-Z][A-Z0-9][A-Z]?)/gm);
 
   const eawData = await eawResponse.text();
   const isEastAsianWide = parseEastAsianWide(eawData);
 
-  let start = null;
-  let end = null;
-  let type = null;
   const trie = new UnicodeTrieBuilder(classes.XX);
 
-  // collect entries in the linebreaking table into ranges
-  // to keep things smaller.
-  for (let match of matches) {
-    var rangeEnd, rangeType;
-    match = match.split(/;|\.\./);
-    const rangeStart = match[0];
+  for (const [, start, end = start, type] of matches) {
+    const rangeStart = parseInt(start, 16);
+    const rangeEnd = parseInt(end, 16);
 
-    if (match.length === 3) {
-      rangeEnd = match[1];
-      rangeType = match[2];
+    // Split East Asian opening punctuation and closing parentheses for LB30.
+    if (type === 'OP' || type === 'CP') {
+      for (let cp = rangeStart; cp <= rangeEnd; cp++) {
+        trie.setRange(cp, cp, isEastAsianWide(cp) ? classes[`${type}_EA`] : classes[type], true);
+      }
     } else {
-      rangeEnd = rangeStart;
-      rangeType = match[1];
+      trie.setRange(rangeStart, rangeEnd, classes[type], true);
     }
-
-    if ((type != null) && (rangeType !== type)) {
-      setTypedRange(trie, parseInt(start, 16), parseInt(end, 16), type, isEastAsianWide);
-      type = null;
-    }
-
-    if (type == null) {
-      start = rangeStart;
-      type = rangeType;
-    }
-
-    end = rangeEnd;
   }
-
-  setTypedRange(trie, parseInt(start, 16), parseInt(end, 16), type, isEastAsianWide);
 
   // write the trie Uint8Array to a file
   const trieBuffer = trie.toBuffer();
