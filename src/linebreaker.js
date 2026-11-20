@@ -390,6 +390,19 @@ export class LineBreaker {
 
     return null;
   }
+
+  *[Symbol.iterator]() {
+    let last = this.lastPos;
+    let breakInfo;
+
+    while ((breakInfo = this.nextBreak()) != null) {
+      yield {
+        ...breakInfo,
+        substring: this.string.slice(last, breakInfo.position)
+      };
+      last = breakInfo.position;
+    }
+  }
 }
 
 
