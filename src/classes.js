@@ -1,4 +1,3 @@
-// The following break classes are handled by the pair table
 export const OP = 0;   // Opening punctuation
 export const CL = 1;   // Closing punctuation
 export const CP = 2;   // Closing parenthesis
@@ -32,13 +31,11 @@ export const EB = 29;  // Emoji Base
 export const EM = 30;  // Emoji Modifier
 export const ZWJ = 31; // Zero Width Joiner
 export const CB = 32;  // Contingent break
-export const AK = 33; // Aksara
-export const AP = 34; // Aksara pre-base
-export const AS = 35; // Aksara start
-export const VF = 36; // Virama final
-export const VI = 37; // Virama
-
-// The following break classes are not handled by the pair table
+export const AK = 33;  // Aksara
+export const AP = 34;  // Aksara pre-base
+export const AS = 35;  // Aksara start
+export const VF = 36;  // Virama final
+export const VI = 37;  // Virama
 export const AI = 38;  // Ambiguous (Alphabetic or Ideograph)
 export const BK = 39;  // Break (mandatory)
 export const CJ = 40;  // Conditional Japanese Starter
