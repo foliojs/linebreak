@@ -1,6 +1,7 @@
 import fs from 'fs';
 import * as classes from './classes.js';
 import { UnicodeTrieBuilder } from 'unicode-trie/builder.js';
+import { UNICODE_VERSION } from './unicode-version.js';
 
 // Build a predicate for East Asian Wide/Fullwidth/Halfwidth code points
 const parseEastAsianWide = (data) => {
@@ -32,12 +33,12 @@ const parseEastAsianWide = (data) => {
 
 // Load LineBreak.txt and EastAsianWidth.txt to generate the class trie
 async function generateData() {
-  const lbResponse = await fetch('https://www.unicode.org/Public/15.0.0/ucd/LineBreak.txt');
+  const lbResponse = await fetch(`https://www.unicode.org/Public/${UNICODE_VERSION}/ucd/LineBreak.txt`);
   if (!lbResponse.ok) {
     throw new Error(`Failed to download LineBreak.txt: ${lbResponse.status} ${lbResponse.statusText}`);
   }
 
-  const eawResponse = await fetch('https://www.unicode.org/Public/15.0.0/ucd/EastAsianWidth.txt');
+  const eawResponse = await fetch(`https://www.unicode.org/Public/${UNICODE_VERSION}/ucd/EastAsianWidth.txt`);
   if (!eawResponse.ok) {
     throw new Error(`Failed to download EastAsianWidth.txt: ${eawResponse.status} ${eawResponse.statusText}`);
   }

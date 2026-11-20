@@ -42,6 +42,14 @@ while (bk = breaker.nextBreak()) {
 }
 ```
 
+Get the supported Unicode version:
+
+```javascript
+import { UNICODE_VERSION } from 'linebreak';
+
+console.log(UNICODE_VERSION); // '15.0.0'
+```
+
 ## Development Notes
 
 In order to use the library, you shouldn't need to know this, but if you're interested in

@@ -3,6 +3,8 @@ import { BK, CR, LF, NL, SG, WJ, SP, ZWJ, BA, HY, NS, AI, AL, CJ, HL, RI, SA, XX
 import { DI_BRK, IN_BRK, CI_BRK, CP_BRK, PR_BRK, pairTable } from './pairs.js';
 import data from './classes-trie-data.js';
 
+export { UNICODE_VERSION } from './unicode-version.js';
+
 const classTrie = new UnicodeTrie(data);
 
 const mapClass = function (c) {
