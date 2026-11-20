@@ -164,7 +164,7 @@ export class LineBreaker {
     }
 
     // LB12a
-    if (right.type === GL && lastClass !== SP && left.type !== BA && left.type !== HY && left.type !== HH) {
+    if (right.type === GL && lastClass !== SP && left.type !== HY && left.type !== HH) {
       return false;
     }
 

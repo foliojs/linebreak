@@ -8,7 +8,7 @@ An implementation of the Unicode Line Breaking Algorithm (UAX #14)
 > but is in the domain of higher level software with knowledge of the available width and the display size of the text.
 
 This is a JavaScript implementation of the [Unicode Line Breaking Algorithm](http://www.unicode.org/reports/tr14/#SampleCode) for Node.js
-and browsers. Currently supports Unicode version 17.0. It is used by [PDFKit](http://github.com/devongovett/pdfkit/) for
+and browsers. Currently supports Unicode version 18.0. It is used by [PDFKit](http://github.com/devongovett/pdfkit/) for
 line wrapping text in PDF documents, but since the algorithm knows nothing about the actual visual appearance or layout of text,
 it could be used for other things as well.
 
@@ -47,7 +47,7 @@ Get the supported Unicode version:
 ```javascript
 import { UNICODE_VERSION } from 'linebreak';
 
-console.log(UNICODE_VERSION); // '17.0.0'
+console.log(UNICODE_VERSION); // '18.0.0'
 ```
 
 ## Development Notes
@@ -63,7 +63,7 @@ contributing or fixing bugs, these things might be of interest.
 
 * You can run the tests using `npm test`. They are written using `mocha`, and generated from
   `LineBreakTest.txt` from the Unicode database, which is included in the repository for performance
-  reasons while running them. Of the 19,338 conformance tests, 34 are currently skipped due to
+  reasons while running them. Of the 19,346 conformance tests, 34 are currently skipped due to
   implementation differences. It appears that some of the tests may be wrong or use different
   tailoring from the spec. To update the `LineBreakTest.txt` file, use the script
   `node test/update_test_file.js`, which downloads and updates the tests for the new Unicode version.
