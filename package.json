@@ -4,6 +4,7 @@
   "description": "An implementation of the Unicode Line Breaking Algorithm (UAX #14)",
   "type": "module",
   "main": "src/linebreaker.js",
+  "types": "src/linebreaker.d.ts",
   "files": [
     "src"
   ],
