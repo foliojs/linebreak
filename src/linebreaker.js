@@ -1,18 +1,19 @@
 import { UnicodeTrie } from 'unicode-trie';
 import {
   BK, CR, LF, NL, SG, WJ, SP, ZW, ZWJ, BA, HY, NS, AI, AL, CJ, HL, RI, SA,
-  OP, OP_EA, QU, GL, CL, CP, CP_EA, EX, IS, SY, CM, AK, AP, AS, VF, VI, XX
+  OP, QU, GL, CL, CP, EX, IS, SY, CM, AK, AP, AS, VF, VI, XX, NU, PR, PO, CB
 } from './classes.js';
-import { CLASS_MASK, INITIAL_PUNCTUATION, FINAL_PUNCTUATION } from './trie-properties.js';
+import { CLASS_MASK, INITIAL_PUNCTUATION, FINAL_PUNCTUATION, EAST_ASIAN } from './trie-properties.js';
 import { DI_BRK, IN_BRK, CI_BRK, CP_BRK, PR_BRK, pairTable } from './pairs.js';
 import data from './classes-trie-data.js';
 
 export { UNICODE_VERSION } from './unicode-version.js';
 
 const classTrie = new UnicodeTrie(data);
-const quoteStartClasses = new Set([BK, CR, LF, NL, OP, OP_EA, QU, GL, SP, ZW]);
-const quoteEndClasses = new Set([SP, GL, WJ, CL, QU, CP, CP_EA, EX, IS, SY, BK, CR, LF, NL, ZW]);
+const quoteStartClasses = new Set([BK, CR, LF, NL, OP, QU, GL, SP, ZW]);
+const quoteEndClasses = new Set([SP, GL, WJ, CL, QU, CP, EX, IS, SY, BK, CR, LF, NL, ZW]);
 const combiningExceptions = new Set([BK, CR, LF, NL, SP, ZW]);
+const hyphenStartClasses = new Set([BK, CR, LF, NL, SP, ZW, CB, GL]);
 const isAksara = (context) => context && (context.type === AK || context.type === AS || context.codePoint === 0x25cc);
 
 const mapClass = function (c) {
@@ -62,7 +63,6 @@ export class LineBreaker {
     this.curClass = null;
     this.nextClass = null;
     this.LB8a = false;
-    this.LB21a = false;
     this.LB30a = 0;
     this.context = null;
     this.previousContext = null;
@@ -97,44 +97,132 @@ export class LineBreaker {
     this.context = {
       type: type === CM || type === ZWJ ? AL : type,
       codePoint,
+      eastAsian: type !== CM && type !== ZWJ && (value & EAST_ASIAN) !== 0,
+      initialPunctuation: (value & INITIAL_PUNCTUATION) !== 0,
       finalQuote: (value & FINAL_PUNCTUATION) !== 0,
+      numeric: type === NU || ((type === SY || type === IS) && !!this.context?.numeric),
+      numericClose: (type === CL || type === CP) && !!this.context?.numeric,
       initialQuote: type === SP ? !!this.context?.initialQuote :
         (value & INITIAL_PUNCTUATION) !== 0 && (!this.context || quoteStartClasses.has(this.context.type))
     };
     return type;
   }
 
-  followingClass() {
+  followingContext(offset = 1) {
     // Look ahead past marks attached to the right-hand character (LB9)
     let pos = this.pos;
     while (pos < this.string.length) {
       const codePoint = this.string.codePointAt(pos);
       pos += codePoint > 0xffff ? 2 : 1;
-      const type = mapClass(classTrie.get(codePoint) & CLASS_MASK);
-      if (type !== CM && type !== ZWJ) {
-        return type;
+      const value = classTrie.get(codePoint);
+      const type = mapClass(value & CLASS_MASK);
+      if (type !== CM && type !== ZWJ && --offset === 0) {
+        return { type, eastAsian: (value & EAST_ASIAN) !== 0 };
       }
     }
     return null;
   }
 
+  followingClass() {
+    return this.followingContext()?.type ?? null;
+  }
+
   getContextualBreak(shouldBreak, lastClass) {
     const left = this.leftContext;
     const right = this.context;
+    const before = this.beforeLeftContext;
 
-    // LB8 takes precedence over the quotation rules
-    if (this.curClass !== ZW) {
-      // LB15a: initial quotation punctuation, including any following spaces
-      if (left.initialQuote) {
-        shouldBreak = false;
+    // LB7
+    if (right.type === ZW) {
+      return false; // LB7
+    }
+
+    // LB8
+    if (this.curClass === ZW) {
+      return true;
+    }
+
+    // LB9
+    if ((this.nextClass === CM || this.nextClass === ZWJ) && !combiningExceptions.has(left.type)) {
+      return false;
+    }
+
+    if (this.LB8a || left.type === WJ || right.type === WJ || left.type === GL) {
+      return false;
+    }
+
+    if (right.type === GL && lastClass !== SP && left.type !== BA && left.type !== HY) {
+      return false;
+    }
+
+    // LB13
+    if ([CL, CP, EX, SY].includes(right.type)) {
+      return false;
+    }
+
+    // LB14
+    if (this.curClass === OP) {
+      return false;
+    }
+
+    // LB15a: initial quotation punctuation, including any following spaces
+    if (left.initialQuote) {
+      return false;
+    }
+
+    // LB15b: final quotation punctuation before closing punctuation or end of text
+    if (right.finalQuote) {
+      const following = this.followingClass();
+      if (following === null || quoteEndClasses.has(following)) {
+        return false;
       }
-      // LB15b: final quotation punctuation before closing punctuation or end of text
-      if (right.finalQuote) {
-        const following = this.followingClass();
-        if (following === null || quoteEndClasses.has(following)) {
-          shouldBreak = false;
-        }
-      }
+    }
+
+    // LB15c/LB15d: a space may precede a decimal separator followed by a digit.
+    if (right.type === IS) {
+      return lastClass === SP && this.followingClass() === NU;
+    }
+
+    if (lastClass === SP) {
+      return shouldBreak; // LB16/LB17/LB18 are in the table
+    }
+
+    // LB19/LB19a: directional quotes can break when surrounded by East Asian text.
+    if (right.type === QU && (!right.initialPunctuation || !left.eastAsian || !this.followingContext()?.eastAsian)) {
+      return false;
+    }
+
+    if (left.type === QU && (!left.finalQuote || !right.eastAsian || !before?.eastAsian)) {
+      return false;
+    }
+
+    // LB20
+    if (left.type === CB || right.type === CB) {
+      return true;
+    }
+
+    // LB20a/LB21a: word-initial and Hebrew hyphens
+    if ((left.type === HY || left.codePoint === 0x2010) && right.type === AL &&
+        (!before || hyphenStartClasses.has(before.type))) {
+      return false;
+    }
+
+    if (before?.type === HL && (left.type === HY || (left.type === BA && !left.eastAsian)) && right.type !== HL) {
+      return false;
+    }
+
+    // LB25: retain numeric context across separators and an optional closing bracket.
+    if ((right.type === PO || right.type === PR) && (left.numeric || left.numericClose)) {
+      return false;
+    }
+
+    if ((left.type === PO || left.type === PR) && right.type === OP) {
+      const following = this.followingClass();
+      if (following === NU || (following === IS && this.followingContext(2)?.type === NU)) return false;
+    }
+
+    if (right.type === NU && (left.type === PO || left.type === PR || left.type === HY || left.type === IS || left.numeric)) {
+      return false;
     }
 
     // LB18 precedes LB28a: a space always ends an orthographic syllable
@@ -147,6 +235,13 @@ export class LineBreaker {
         shouldBreak = false;
       }
     }
+
+    // LB30: only non-East-Asian brackets join adjacent letters and numbers
+    if ((right.type === OP && !right.eastAsian && [AL, HL, NU].includes(left.type)) ||
+        (left.type === CP && !left.eastAsian && [AL, HL, NU].includes(right.type))) {
+      return false;
+    }
+
     return shouldBreak;
   }
 
@@ -205,14 +300,6 @@ export class LineBreaker {
     }
 
     shouldBreak = this.getContextualBreak(shouldBreak, lastClass);
-
-    // Rule LB21a
-    if (this.LB21a && (this.curClass === HY || this.curClass === BA)) {
-      shouldBreak = false;
-      this.LB21a = false;
-    } else {
-      this.LB21a = (this.curClass === HL);
-    }
 
     // Rule LB30a
     if (this.curClass === RI) {

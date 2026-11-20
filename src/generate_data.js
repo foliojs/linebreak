@@ -1,6 +1,6 @@
 import fs from 'fs';
 import * as classes from './classes.js';
-import { INITIAL_PUNCTUATION, FINAL_PUNCTUATION } from './trie-properties.js';
+import { INITIAL_PUNCTUATION, FINAL_PUNCTUATION, EAST_ASIAN } from './trie-properties.js';
 import { UnicodeTrieBuilder } from 'unicode-trie/builder.js';
 import { UNICODE_VERSION } from './unicode-version.js';
 
@@ -70,14 +70,7 @@ async function generateData() {
     const rangeStart = parseInt(start, 16);
     const rangeEnd = parseInt(end, 16);
 
-    // Split East Asian opening punctuation and closing parentheses for LB30
-    if (type === 'OP' || type === 'CP') {
-      for (let cp = rangeStart; cp <= rangeEnd; cp++) {
-        trie.setRange(cp, cp, isEastAsianWide(cp) ? classes[`${type}_EA`] : classes[type], true);
-      }
-    } else {
-      trie.setRange(rangeStart, rangeEnd, classes[type], true);
-    }
+    trie.setRange(rangeStart, rangeEnd, classes[type], true);
   }
 
   const categoryData = await categoryResponse.text();
@@ -105,6 +98,13 @@ async function generateData() {
       if (unassigned[cp]) {
         trie.setRange(cp, cp, classes.EB, true);
       }
+    }
+  }
+
+  // LB19a, LB21a and LB30 use East Asian Width alongside the line break class.
+  for (let cp = 0; cp <= 0x10ffff; cp++) {
+    if (isEastAsianWide(cp)) {
+      trie.set(cp, trie.get(cp) | EAST_ASIAN);
     }
   }
 
