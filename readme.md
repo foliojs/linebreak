@@ -63,12 +63,9 @@ contributing or fixing bugs, these things might be of interest.
 
 * You can run the tests using `npm test`. They are written using `mocha`, and generated from
   `LineBreakTest.txt` from the Unicode database, which is included in the repository for performance
-  reasons while running them. Of the 19,346 conformance tests, 34 are currently skipped due to
-  implementation differences. It appears that some of the tests may be wrong or use different
-  tailoring from the spec. To update the `LineBreakTest.txt` file, use the script
+  reasons while running them. All 19,346 conformance tests run without skips.
+  To update the `LineBreakTest.txt` file, use the script
   `node test/update_test_file.js`, which downloads and updates the tests for the new Unicode version.
-  After updating, remap skipped row numbers by their test input, checking for changed expected breaks;
-  row numbers change between Unicode releases.
 
 ## License
 
